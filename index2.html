@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Notes App in JavaScript | CodingNepal</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Iconscout Link For Icons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+</head>
+
+<body>
+    <div class="popup-box">
+        <div class="popup">
+            <div class="content">
+                <header>
+                    <p></p>
+                    <i class="uil uil-times"></i>
+                </header>
+                <form action="#" id="edit-form">
+                    <div class="row title">
+                        <label>Topic Name</label>
+                        <input type="text" spellcheck="false" id="title-tag">
+                    </div>
+                    <div class="row description">
+                        <label>Description</label>
+                        <textarea spellcheck="false" id="desc-tag"></textarea>
+                    </div>
+                    <button id="add-topic-btn"></button>
+                </form>
+                <div id="display-note">
+                </div>
+                <div id="button-menu">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper" id="topics">
+        <li class="add-box" id="add-topic">
+            <div class="icon"><i class="uil uil-plus"></i></div>
+            <p>Add New Topic</p>
+        </li>
+    </div>
+
+
+    <script src="script2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+
+</body>
+
+</html>
