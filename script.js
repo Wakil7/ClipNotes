@@ -4,15 +4,15 @@ const addSubject = document.getElementById("add-subject"),
   popupTitle = popupBox.querySelector("header p"),
   closeIcon = popupBox.querySelector("header i"),
   subjectTag = document.getElementById("subject-tag"),
-  descTag = document.getElementById("desc-tag"),
   editForm = document.getElementById("edit-form"),
   subjectForm = document.getElementById("subject-form"),
   displayNote = document.getElementById("display-note"),
   buttonMenu = document.getElementById("button-menu"),
   addSubjectBtn = document.getElementById("add-subject-btn");
 
-
-let subjectArr = JSON.parse(localStorage.getItem("subjects") || "[]");
+let isUpdateSubject = false;
+//let subjectArr = JSON.parse(localStorage.getItem("subjects") || "[]");
+//let subjectArr = 
 
 addSubject.addEventListener("click", () => {
   popupTitle.innerText = "Add a New Subject";
@@ -25,7 +25,7 @@ closeIcon.addEventListener("click", () => {
   document.querySelector("body").style.overflow = "auto";
 });
 
-
+/*
 function showSubjects() {
   if (!subjectArr) return;
   document.querySelectorAll(".note").forEach((li) => li.remove());
@@ -44,59 +44,77 @@ function showSubjects() {
     addSubject.insertAdjacentHTML("afterend", liTag);
   });
 }
-showSubjects();
+*/
+//showSubjects();
 
 
 
 function viewSubject(subjectId) {
-  localStorage.setItem("currentSubject", subjectId);
+  sessionStorage.setItem("currentSubject", subjectId);
   window.location.href = "index2.html";
 }
 
-function editSubject(subjectId)
-{
-
+function editSubject(subjectId) {
+  /*
+  subjectTag.value = subjectId;
+  isUpdateSubject = true;
+  addSubjectBtn.innerText = "Update Subject";
+  addSubject.click();
+  */
 }
 
-function deleteSubject(subjectId)
-{
+function deleteSubject(subjectName) {
   let confirmDel = confirm("Are you sure you want to delete this note?");
   if (!confirmDel) return;
-  subjectArr.splice(subjectArr.indexOf(subjectId), 1);
-  let topicsArr = JSON.parse(localStorage.getItem("notes"));
-  let newTopicsArr = [];
-  topicsArr.forEach((topic)=>{
-    if (topic.subject!=subjectId)
-    {
-      newTopicsArr.push(topic);
-    }
-  })
-  localStorage.setItem("subjects", JSON.stringify(subjectArr));
-  localStorage.setItem("notes", JSON.stringify(newTopicsArr));
+  removeSubject(subjectName, function(){
+    showSubjects();
+  });
   closeIcon.click();
-  showSubjects();
 }
 
 addSubjectBtn.addEventListener("click", (e) => {
   e.preventDefault();
   let subjectName = subjectTag.value.trim();
-  if (subjectName != "") {
-    console.log(subjectArr);
-    if (subjectArr.includes(subjectName)) {
-      alert("This subject already exists");
-    }
-    else {
-      subjectArr.push(subjectName);
-      localStorage.setItem("subjects", JSON.stringify(subjectArr));
+  if (subjectName == "") {
+    alert("Subject name cannot be left blank");
+  }
+  else {
+    fetchSubjects(function (subjects) {
+      for (subName in subjects) {
+        if (subName == subjectName) {
+          alert("This subject name already exists");
+          return;
+        }
+      }
+      setSubject(subjectName);
       showSubjects();
       closeIcon.click();
       subjectTag.value = "";
-    }
-
-  }
-  else {
-    alert("Subject name cannot be left blank");
+    });
   }
 
 });
+function showSubjects() {
+  fetchSubjects(function (subjects) {
+    document.querySelectorAll(".note").forEach((li) => li.remove());
+    if (subjects == null) {
+      console.log("No Subjects Added. Create a new Subject Folder");
+    }
+    else {
+      for (subName in subjects) {
+        let liTag = `<li class="note">
+                          <div class="details">
+                              <p>${subName}</p>
+                              <span  onclick="viewSubject('${subName}')">[Subject Image]</span>
+                          </div>
+                          <button class="" onclick="editSubject('${subName}')"><i class="uil uil-pen"></i>Edit</button>
+                           <button class="" onclick="deleteSubject('${subName}')"><i class="uil uil-trash"></i>Delete</button>
+  
+                      </li > `;
+        addSubject.insertAdjacentHTML("afterend", liTag);
+      }
+    }
+  })
+}
 
+showSubjects();

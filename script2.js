@@ -11,7 +11,7 @@ const addTopic = document.getElementById("add-topic"),
   addTopicBtn = document.getElementById("add-topic-btn"),
   backBtn = document.getElementById("back-btn");
 
-let currentSubject = localStorage.getItem("currentSubject");
+let currentSubject = sessionStorage.getItem("currentSubject");
 
 const months = [
   "January",
@@ -49,7 +49,7 @@ closeIcon.addEventListener("click", () => {
   popupBox.classList.remove("show");
   document.querySelector("body").style.overflow = "auto";
 });
-
+/*
 function showNotes() {
   if (!notes) return;
   document.querySelectorAll(".note").forEach((li) => li.remove());
@@ -84,7 +84,8 @@ function showNotes() {
     }
   });
 }
-showNotes();
+*/
+//showNotes();
 
 function showMenu(elem) {
   elem.parentElement.classList.add("show");
@@ -94,7 +95,7 @@ function showMenu(elem) {
     }
   });
 }
-
+/*
 function deleteNote(noteId) {
   let confirmDel = confirm("Are you sure you want to delete this note?");
   if (!confirmDel) return;
@@ -103,7 +104,19 @@ function deleteNote(noteId) {
   closeIcon.click();
   showNotes();
 }
+*/
 
+function deleteTopic(topicName)
+{
+  let confirmDel = confirm("Are you sure you want to delete this topic?");
+  if (!confirmDel) return;
+  removeTopic(topicName, function(){
+    showTopics();
+  });
+  closeIcon.click();
+}
+
+/*
 function updateNote(noteId, title, filterDesc) {
   let description = filterDesc.replaceAll("<br/>", "\r\n");
   updateId = noteId;
@@ -114,11 +127,12 @@ function updateNote(noteId, title, filterDesc) {
   popupTitle.innerText = "Update a Note";
   addTopicBtn.innerText = "Update Note";
 }
+*/
 
-function viewNote(noteId, title, filterDesc) {
+function viewTopic(title, filterDesc) {
   let description = filterDesc.replaceAll("<br/>", "\r\n");
-  updateId = noteId;
-  isUpdate = true;
+  //updateId = noteId;
+  //isUpdate = true;
   addTopic.click();
   editForm.style.display = "none";
   displayNote.style.overflowY = "auto";
@@ -134,42 +148,73 @@ function viewNote(noteId, title, filterDesc) {
   displayNote.style.marginLeft = "auto";
   displayNote.style.marginRight = "auto";
   buttonMenu.style.display = "block";
-//   console.log(noteId);
-  buttonMenu.innerHTML = `<button class="btpop" onclick="updateNote(${noteId}, '${title}', '${filterDesc}')"><i class="uil uil-pen"></i>Edit</button>
-  <button class="btpop" onclick="deleteNote(${noteId})"><i class="uil uil-trash"></i>Delete</button>`;
+  //   console.log(noteId);
+  buttonMenu.innerHTML = `<button class="btpop" onclick="updateNote(${title}, '${title}', '${filterDesc}')"><i class="uil uil-pen"></i>Edit</button>
+  <button class="btpop" onclick="deleteTopic('${title}')"><i class="uil uil-trash"></i>Delete</button>`;
   displayNote.innerHTML = filterDesc;
   descTag.value = description;
   popupTitle.innerText = title;
   addTopicBtn.innerText = "Close";
 }
 
+
 addTopicBtn.addEventListener("click", (e) => {
   e.preventDefault();
   let title = titleTag.value.trim(),
     description = descTag.value.trim();
+  if (title == "" || description == "") {
+    alert("Title and Description cannot be left blank");
+  }
+  else {
+    fetchTopics(function (topics) {
+      for (topicName in topics) {
+        if (topicName == title) {
+          alert("This topic name already exists");
+          return;
+        }
+      }
+      let currentDate = new Date(),
+        month = months[currentDate.getMonth()],
+        day = currentDate.getDate(),
+        year = currentDate.getFullYear(),
+        date = `${month} ${day}, ${year}`;
+      setTopic(title, description, date);
+      showTopics();
+      closeIcon.click();
+    });
 
-  if (title || description) {
-    let currentDate = new Date(),
-      month = months[currentDate.getMonth()],
-      day = currentDate.getDate(),
-      year = currentDate.getFullYear();
-    let subject = currentSubject;
-    let noteInfo = {
-      subject,
-      title,
-      description,
-      date: `${month} ${day}, ${year}`,
-    };
-    if (!isUpdate) {
-      notes.push(noteInfo);
-    } else {
-      isUpdate = false;
-      notes[updateId] = noteInfo;
-    }
-    localStorage.setItem("notes", JSON.stringify(notes));
-    showNotes();
-    closeIcon.click();
   }
 });
 
+function showTopics() {
+  fetchTopics(function (topics) {
+    document.querySelectorAll(".note").forEach((li) => li.remove());
+    if (topics == null) {
+      console.log("You haven't added any topics yet");
+    }
+    else {
+      for (topicName in topics) {
+        let filterDesc = topics[topicName].description.replaceAll("\n", "<br/>");
+        let showDesc;
+        if (filterDesc.length > 50) {
+          showDesc = filterDesc.substring(0, 50) + "...";
+        } else {
+          showDesc = filterDesc;
+        }
+        let liTag = `<li class="note"  >
+                        <div class="details" onclick="viewTopic('${topicName}', '${filterDesc}')">
+                            <p>${topicName}</p>
+                            <span>${showDesc}</span>
+                        </div>
+                        <div class="bottom-content">
+                            <span>Added on ${topics[topicName].date}</span>
+                            
+                        </div>
+                    </li>`;
+        addTopic.insertAdjacentHTML("afterend", liTag);
+      }
+    }
+  });
+}
 
+showTopics();
