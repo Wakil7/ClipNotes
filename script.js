@@ -53,7 +53,7 @@ function showSubjects() {
 
 function viewSubject(subCode) {
   sessionStorage.setItem("currentSubject", subCode);
-  window.location.href = "index2.html";
+  window.location.href = "topics.html";
 }
 
 function editSubject(subCode, subName) {

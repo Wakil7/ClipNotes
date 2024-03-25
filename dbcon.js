@@ -99,7 +99,7 @@ function userSignUp(username, email, password) {
 
     notesDB.ref("ClipNotes").child(username).set(userData).then(() => {
       sessionStorage.setItem("currentUserName", username);
-      window.location.href = "index.html";
+      window.location.href = "subjects.html";
     })
       .catch((error) => {
         console.log("An error has occurred", error);
@@ -117,7 +117,7 @@ function userSignIn(username, password) {
         let passwordFromDb = data[username].password;
         if (passwordFromUser == passwordFromDb) {
           sessionStorage.setItem("currentUserName", username);
-          window.location.href = "index.html"
+          window.location.href = "subjects.html"
           return;
         }
         else {
