@@ -29,8 +29,8 @@ const months = [
 ];
 const notes = JSON.parse(localStorage.getItem("notes") || "[]");
 
-let isUpdate = false,
-  updateId;
+let isUpdate = false;
+let updateTopicCode = null;
 
 addTopic.addEventListener("click", () => {
   popupTitle.innerText = "Add a New Topic";
@@ -106,11 +106,10 @@ function deleteNote(noteId) {
 }
 */
 
-function deleteTopic(topicName)
-{
+function deleteTopic(topicCode) {
   let confirmDel = confirm("Are you sure you want to delete this topic?");
   if (!confirmDel) return;
-  removeTopic(topicName, function(){
+  removeTopic(topicCode, function () {
     showTopics();
   });
   closeIcon.click();
@@ -129,7 +128,19 @@ function updateNote(noteId, title, filterDesc) {
 }
 */
 
-function viewTopic(title, filterDesc) {
+function editTopic(topicCode, title, filterDesc)
+{
+  let description = filterDesc.replaceAll("<br/>", "\r\n");
+  isUpdate = true;
+  addTopic.click();
+  titleTag.value = title;
+  descTag.value = description;
+  popupTitle.innerText = "Update Topic";
+  addTopicBtn.innerText = "Update";
+  updateTopicCode = topicCode;
+}
+
+function viewTopic(topicCode, title, filterDesc) {
   let description = filterDesc.replaceAll("<br/>", "\r\n");
   //updateId = noteId;
   //isUpdate = true;
@@ -144,13 +155,14 @@ function viewTopic(title, filterDesc) {
   displayNote.style.fontSize = "18px";
   displayNote.style.lineHeight = "1.6";
   displayNote.style.padding = "0 ";
+  displayNote.style.wordBreak = "break-all";
   // displayNote.style.maxWidth = "800px";
   displayNote.style.marginLeft = "auto";
   displayNote.style.marginRight = "auto";
   buttonMenu.style.display = "block";
   //   console.log(noteId);
-  buttonMenu.innerHTML = `<button class="btpop" onclick="updateNote(${title}, '${title}', '${filterDesc}')"><i class="uil uil-pen"></i>Edit</button>
-  <button class="btpop" onclick="deleteTopic('${title}')"><i class="uil uil-trash"></i>Delete</button>`;
+  buttonMenu.innerHTML = `<button class="btpop" onclick="editTopic('${topicCode}', '${title}', '${filterDesc}')"><i class="uil uil-pen"></i>Edit</button>
+  <button class="btpop" onclick="deleteTopic('${topicCode}')"><i class="uil uil-trash"></i>Delete</button>`;
   displayNote.innerHTML = filterDesc;
   descTag.value = description;
   popupTitle.innerText = title;
@@ -166,35 +178,36 @@ addTopicBtn.addEventListener("click", (e) => {
     alert("Title and Description cannot be left blank");
   }
   else {
-    fetchTopics(function (topics) {
-      for (topicName in topics) {
-        if (topicName == title) {
-          alert("This topic name already exists");
-          return;
-        }
-      }
-      let currentDate = new Date(),
-        month = months[currentDate.getMonth()],
-        day = currentDate.getDate(),
-        year = currentDate.getFullYear(),
-        date = `${month} ${day}, ${year}`;
+    let currentDate = new Date(),
+      month = months[currentDate.getMonth()],
+      day = currentDate.getDate(),
+      year = currentDate.getFullYear(),
+      date = `${month} ${day}, ${year}`;
+    if (isUpdate)
+    {
+      updateTopic(title, description, date, updateTopicCode);
+      isUpdate = false;
+      updateTopicCode = null;
+    }
+    else
+    {
       setTopic(title, description, date);
-      showTopics();
-      closeIcon.click();
-    });
-
+    }
+    showTopics();
+    closeIcon.click();
   }
 });
 
 function showTopics() {
   fetchTopics(function (topics) {
     document.querySelectorAll(".note").forEach((li) => li.remove());
+    //console.log(topics)
     if (topics == null) {
       console.log("You haven't added any topics yet");
     }
     else {
-      for (topicName in topics) {
-        let filterDesc = topics[topicName].description.replaceAll("\n", "<br/>");
+      for (topicCode in topics) {
+        let filterDesc = topics[topicCode].description.replaceAll("\n", "<br/>");
         let showDesc;
         if (filterDesc.length > 50) {
           showDesc = filterDesc.substring(0, 50) + "...";
@@ -202,12 +215,12 @@ function showTopics() {
           showDesc = filterDesc;
         }
         let liTag = `<li class="note"  >
-                        <div class="details" onclick="viewTopic('${topicName}', '${filterDesc}')">
-                            <p>${topicName}</p>
+                        <div class="details" onclick="viewTopic('${topicCode}','${topics[topicCode].title}', '${filterDesc}')">
+                            <p>${topics[topicCode].title}</p>
                             <span>${showDesc}</span>
                         </div>
                         <div class="bottom-content">
-                            <span>Added on ${topics[topicName].date}</span>
+                            <span>${topics[topicCode].date}</span>
                             
                         </div>
                     </li>`;

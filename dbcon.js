@@ -9,37 +9,48 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-let notesDB = firebase.database().ref("ClipNotes");
-
-
-//let currentUserName = null;
-
-
+let notesDB = firebase.database();
 
 
 function setSubject(subName) {
   //let newSubRef = notesDB.child(userName).child(subName);
   let currentUserName = sessionStorage.getItem("currentUserName");
-  let newSubRef = notesDB.child(currentUserName).child("Subjects").child(subName);
-  newSubRef.update({ subjectId: subName }).then(() => {
+  let subjectCode = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects").push().key;
+  let newSubRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + subjectCode);
+  newSubRef.set({ "SubjectName": subName }).then(() => {
     console.log("Subject set successfully!");
   })
     .catch((error) => {
       console.error("Error setting subject:", error);
     });
 }
-//currentUserName = "Wakil";
-//setSubject("Maths");
+
+function updateSubject(subName, subCode)
+{
+  let currentUserName = sessionStorage.getItem("currentUserName");
+  let subRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + subCode);
+  subRef.update({ "SubjectName": subName }).then(() => {
+    console.log("Subject Updated successfully!");
+  })
+    .catch((error) => {
+      console.error("Error updating subject:", error);
+    });
+}
+//updateSubject("Computer", "-NtqYVvxB_PhQA3hmPdR")
+
+//setSubject("Maths2");
 
 function setTopic(topicName, description, date) {
   let currentUserName = sessionStorage.getItem("currentUserName");
   let currentSubject = sessionStorage.getItem("currentSubject");
-  let topicRef = notesDB.child(currentUserName).child("Subjects").child(currentSubject).child("Topics").child(topicName);
+  let topicCode = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/"+currentSubject + "/Topics").push().key;
+  let topicRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/"+currentSubject + "/Topics/" + topicCode);
   let topicData = {
+    title: topicName,
     description: description,
-    date: date
+    date: "Added on " + date
   }
-  topicRef.update(topicData).then(() => {
+  topicRef.set(topicData).then(() => {
     console.log("Topic set successfully!");
   })
     .catch((error) => {
@@ -47,6 +58,26 @@ function setTopic(topicName, description, date) {
     });
 }
 
+//setTopic("T2", "D1", "Any");
+function updateTopic(topicName, description, date, topicCode)
+{
+  let currentUserName = sessionStorage.getItem("currentUserName");
+  let currentSubject = sessionStorage.getItem("currentSubject");
+  let topicRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/"+currentSubject + "/Topics/" + topicCode);
+  let topicData = {
+    title: topicName,
+    description: description,
+    date: "Updated on " + date
+  }
+  topicRef.update(topicData).then(() => {
+    console.log("Topic updated successfully!");
+  })
+    .catch((error) => {
+      console.error("Error updating topic:", error);
+    });
+}
+
+//updateTopic("T4", "D5", "Today", "-Ntq_n01_hA3XmdQ-Tm6")
 
 function userSignUp(username, email, password) {
   getUserData(function (data) {
@@ -66,7 +97,7 @@ function userSignUp(username, email, password) {
       email: email
     }
 
-    notesDB.child(username).set(userData).then(() => {
+    notesDB.ref("ClipNotes").child(username).set(userData).then(() => {
       sessionStorage.setItem("currentUserName", username);
       window.location.href = "index.html";
     })
@@ -98,7 +129,8 @@ function userSignIn(username, password) {
     //console.log(userFound);
   })
 }
-//userSignIn("Wakil", "gas");
+
+
 // Function to encrypt the password
 function encryptPassword(password) {
   let encryptedPassword = "";
@@ -142,7 +174,7 @@ function getUserData(callback) {
     }
   }, 10000);
 
-  notesDB.once('value', function (data) {
+  notesDB.ref("ClipNotes").once('value', function (data) {
     dataFetched = true;
     clearTimeout(timeout);
     let userDataObject = data.val();
@@ -159,7 +191,7 @@ function fetchSubjects(callback) {
     }
   }, 10000);
   let currentUserName = sessionStorage.getItem("currentUserName");
-  let userSubjectData = firebase.database().ref("ClipNotes/" + currentUserName + "/Subjects");
+  let userSubjectData = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects");
 
   userSubjectData.once('value')
     .then(function (data) {
@@ -184,7 +216,7 @@ function fetchTopics(callback)
   }, 10000);
   let currentSubject = sessionStorage.getItem("currentSubject");
   let currentUserName = sessionStorage.getItem("currentUserName");
-  let userTopicData = firebase.database().ref("ClipNotes/" + currentUserName + "/Subjects/" + currentSubject + "/Topics");
+  let userTopicData = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + currentSubject + "/Topics");
   userTopicData.once('value')
     .then(function (data) {
       topicFetched = true;
@@ -197,10 +229,10 @@ function fetchTopics(callback)
     });
 }
 
-function removeSubject(subjectName, callback)
+function removeSubject(subCode, callback)
 {
   let currentUserName = sessionStorage.getItem("currentUserName");
-  let subjectToRemove = firebase.database().ref("ClipNotes/" + currentUserName + "/Subjects/" + subjectName);
+  let subjectToRemove = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + subCode);
   subjectToRemove.remove()
   .then(function() {
     console.log("Subject deleted successfully");
@@ -211,11 +243,13 @@ function removeSubject(subjectName, callback)
   });
 }
 
-function removeTopic(topicName, callback)
+function removeTopic(topicCode, callback)
 {
   let currentUserName = sessionStorage.getItem("currentUserName");
   let currentSubject = sessionStorage.getItem("currentSubject");
-  let topicToRemove = firebase.database().ref("ClipNotes/" + currentUserName + "/Subjects/" + currentSubject + "/Topics/" + topicName);
+  console.log(currentSubject);
+  let topicToRemove = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + currentSubject + "/Topics/" + topicCode);
+  topicToRemove.push()
   topicToRemove.remove().then(function() {
     console.log("Topic deleted successfully");
     callback();

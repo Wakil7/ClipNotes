@@ -11,11 +11,13 @@ const addSubject = document.getElementById("add-subject"),
   addSubjectBtn = document.getElementById("add-subject-btn");
 
 let isUpdateSubject = false;
+let updateSubjectCode = null;
 //let subjectArr = JSON.parse(localStorage.getItem("subjects") || "[]");
 //let subjectArr = 
 
 addSubject.addEventListener("click", () => {
   popupTitle.innerText = "Add a New Subject";
+  subjectTag.text = "";
   popupBox.classList.add("show");
   document.querySelector("body").style.overflow = "hidden";
 });
@@ -49,24 +51,24 @@ function showSubjects() {
 
 
 
-function viewSubject(subjectId) {
-  sessionStorage.setItem("currentSubject", subjectId);
+function viewSubject(subCode) {
+  sessionStorage.setItem("currentSubject", subCode);
   window.location.href = "index2.html";
 }
 
-function editSubject(subjectId) {
-  /*
-  subjectTag.value = subjectId;
+function editSubject(subCode, subName) {
+  isUpdateSubject = true;
+  addSubject.click();
+  subjectTag.value = subName;
   isUpdateSubject = true;
   addSubjectBtn.innerText = "Update Subject";
-  addSubject.click();
-  */
+  updateSubjectCode = subCode;
 }
 
-function deleteSubject(subjectName) {
+function deleteSubject(subCode) {
   let confirmDel = confirm("Are you sure you want to delete this note?");
   if (!confirmDel) return;
-  removeSubject(subjectName, function(){
+  removeSubject(subCode, function () {
     showSubjects();
   });
   closeIcon.click();
@@ -79,21 +81,21 @@ addSubjectBtn.addEventListener("click", (e) => {
     alert("Subject name cannot be left blank");
   }
   else {
-    fetchSubjects(function (subjects) {
-      for (subName in subjects) {
-        if (subName == subjectName) {
-          alert("This subject name already exists");
-          return;
-        }
-      }
+    if (isUpdateSubject)
+    {
+      updateSubject(subjectName, updateSubjectCode);
+    }
+    else
+    {
       setSubject(subjectName);
-      showSubjects();
-      closeIcon.click();
-      subjectTag.value = "";
-    });
+    }
+    showSubjects();
+    closeIcon.click();
+    subjectTag.value = "";
   }
-
 });
+
+
 function showSubjects() {
   fetchSubjects(function (subjects) {
     document.querySelectorAll(".note").forEach((li) => li.remove());
@@ -101,14 +103,13 @@ function showSubjects() {
       console.log("No Subjects Added. Create a new Subject Folder");
     }
     else {
-      for (subName in subjects) {
+      for (subCode in subjects) {
         let liTag = `<li class="note">
-                          <div class="details">
-                              <p>${subName}</p>
-                              <span  onclick="viewSubject('${subName}')">[Subject Image]</span>
+                          <div class="details" onclick="viewSubject('${subCode}')">
+                              <p id="subject-text">${subjects[subCode].SubjectName}</p>
                           </div>
-                          <button class="" onclick="editSubject('${subName}')"><i class="uil uil-pen"></i>Edit</button>
-                           <button class="" onclick="deleteSubject('${subName}')"><i class="uil uil-trash"></i>Delete</button>
+                          <button class="" onclick="editSubject('${subCode}','${subjects[subCode].SubjectName}')"><i class="uil uil-pen"></i>Edit</button>
+                           <button class="" onclick="deleteSubject('${subCode}')"><i class="uil uil-trash"></i>Delete</button>
   
                       </li > `;
         addSubject.insertAdjacentHTML("afterend", liTag);

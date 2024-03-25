@@ -157,8 +157,19 @@ header,
   overflow-y: auto;
 }
 */
+#subject-text{
+  width: 100%; /* Set the maximum width */
+  height: 100%;
+  justify-content: center;
+  cursor: default;
+  overflow: hidden;
+  word-break: break-all
+}
 .details {
-  max-width: 100%; /* Set the maximum width */
+  width: 100%; /* Set the maximum width */
+  height: 100%;
+  justify-content: center;
+  cursor: default;
   overflow: hidden; /* Hide any overflow */
   text-overflow: ellipsis; /* Display an ellipsis (...) if the text overflows */
   white-space: nowrap; /* Prevent the text from wrapping */
