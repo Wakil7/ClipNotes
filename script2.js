@@ -45,6 +45,7 @@ addTopic.addEventListener("click", () => {
 
 closeIcon.addEventListener("click", () => {
   isUpdate = false;
+  updateTopicCode = null;
   titleTag.value = descTag.value = "";
   popupBox.classList.remove("show");
   document.querySelector("body").style.overflow = "auto";
@@ -155,7 +156,8 @@ function viewTopic(topicCode, title, filterDesc) {
   displayNote.style.fontSize = "18px";
   displayNote.style.lineHeight = "1.6";
   displayNote.style.padding = "0 ";
-  displayNote.style.wordBreak = "break-all";
+  displayNote.style.wordWrap = 'break-word';
+  displayNote.style.overflowWrap = 'break-word';
   // displayNote.style.maxWidth = "800px";
   displayNote.style.marginLeft = "auto";
   displayNote.style.marginRight = "auto";

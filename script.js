@@ -18,11 +18,14 @@ let updateSubjectCode = null;
 addSubject.addEventListener("click", () => {
   popupTitle.innerText = "Add a New Subject";
   subjectTag.text = "";
+  addSubject.innerText = "Add Subject";
   popupBox.classList.add("show");
   document.querySelector("body").style.overflow = "hidden";
 });
 
 closeIcon.addEventListener("click", () => {
+  isUpdateSubject = false;
+  updateSubjectCode = null;
   popupBox.classList.remove("show");
   document.querySelector("body").style.overflow = "auto";
 });
@@ -61,7 +64,8 @@ function editSubject(subCode, subName) {
   addSubject.click();
   subjectTag.value = subName;
   isUpdateSubject = true;
-  addSubjectBtn.innerText = "Update Subject";
+  popupTitle.innerText = "Update Subject Name";
+  addSubjectBtn.innerText = "Update";
   updateSubjectCode = subCode;
 }
 
@@ -84,6 +88,8 @@ addSubjectBtn.addEventListener("click", (e) => {
     if (isUpdateSubject)
     {
       updateSubject(subjectName, updateSubjectCode);
+      isUpdateSubject = false;
+      updateSubjectCode = null;
     }
     else
     {

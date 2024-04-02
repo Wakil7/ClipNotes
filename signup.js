@@ -6,22 +6,34 @@ signupBtn.addEventListener("click", (e) => {
     let password = document.getElementById("password").value;
     let confirmPassword = document.getElementById("confirm-password").value;
 
-
-    if (username.length<3)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (username.trim()=="" || email.trim()=="" || password.trim()=="" || confirmPassword.trim()=="")
     {
-        alert("Username must be atleast 3 characters long");
+        errorNotification("All the fields are mandatory");
+    }
+    else if (username.includes(" "))
+    {
+        errorNotification("Username cannot contain space");
+    }
+    else if (username.length<3)
+    {
+        errorNotification("Username must be atleast 3 characters long");
+    }
+    else if (!emailRegex.test(email)) 
+    {
+        errorNotification("Please enter a valid email address");
     }
     else if (password!=confirmPassword)
     {
-        alert("Password does not match");
+        errorNotification("Password does not match");
     }
     else if (password.includes(" "))
     {
-        alert("Password cannot contain space");
+        errorNotification("Password cannot contain space");
     }
     else if (password.length<8 || password.length>24)
     {
-        alert("Password length must be between 8 and 24 characters")
+        errorNotification("Password length must be between 8 and 24 characters")
     }
     else
     {

@@ -3,5 +3,13 @@ signinBtn.addEventListener("click", (e)=>{
     e.preventDefault();
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
-    userSignIn(username, password);
+    if (username.trim()=="" || password.trim()=="")
+    {
+        errorNotification("All the fields are mandatory");
+    }
+    else
+    {
+        userSignIn(username, password);
+    }
+    
 });

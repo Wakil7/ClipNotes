@@ -18,10 +18,10 @@ function setSubject(subName) {
   let subjectCode = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects").push().key;
   let newSubRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + subjectCode);
   newSubRef.set({ "SubjectName": subName }).then(() => {
-    console.log("Subject set successfully!");
+    successNotification(subName + " folder created successfully");
   })
     .catch((error) => {
-      console.error("Error setting subject:", error);
+      errorNotification("Some error occurred. Try again");
     });
 }
 
@@ -30,10 +30,10 @@ function updateSubject(subName, subCode)
   let currentUserName = sessionStorage.getItem("currentUserName");
   let subRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + subCode);
   subRef.update({ "SubjectName": subName }).then(() => {
-    console.log("Subject Updated successfully!");
+    successNotification(subName + " folder updated successfully")
   })
     .catch((error) => {
-      console.error("Error updating subject:", error);
+      errorNotification("Error creating . Try again");
     });
 }
 //updateSubject("Computer", "-NtqYVvxB_PhQA3hmPdR")
@@ -51,10 +51,10 @@ function setTopic(topicName, description, date) {
     date: "Added on " + date
   }
   topicRef.set(topicData).then(() => {
-    console.log("Topic set successfully!");
+    successNotification("Topic set successfully");
   })
     .catch((error) => {
-      console.error("Error setting topic:", error);
+      errorNotification("Error setting topic. Try again");
     });
 }
 
@@ -70,10 +70,10 @@ function updateTopic(topicName, description, date, topicCode)
     date: "Updated on " + date
   }
   topicRef.update(topicData).then(() => {
-    console.log("Topic updated successfully!");
+    successNotification("Topic updated successfully");
   })
     .catch((error) => {
-      console.error("Error updating topic:", error);
+     errorNotification("Error updating topic. Try again");
     });
 }
 
@@ -83,11 +83,11 @@ function userSignUp(username, email, password) {
   getUserData(function (data) {
     for (uname in data) {
       if (uname == username) {
-        alert("This Username already exists. Try with a different username");
+        errorNotification("This Username already exists. Try with a different username");
         return;
       }
       if (data[uname].email == email) {
-        alert("This Email is already registered");
+        errorNotification("This Email is already registered");
         return;
       }
     }
@@ -102,7 +102,7 @@ function userSignUp(username, email, password) {
       window.location.href = "subjects.html";
     })
       .catch((error) => {
-        console.log("An error has occurred", error);
+        errorNotification("Some error occurred. Try again");
       });
   })
 
@@ -121,11 +121,12 @@ function userSignIn(username, password) {
           return;
         }
         else {
-          alert("Invalid Username or Password");
+          errorNotification("Invalid Username or Password");
+          return;
         }
       }
     }
-    alert("This username does not exist");
+    errorNotification("This username does not exist");
     //console.log(userFound);
   })
 }
@@ -235,11 +236,11 @@ function removeSubject(subCode, callback)
   let subjectToRemove = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + subCode);
   subjectToRemove.remove()
   .then(function() {
-    console.log("Subject deleted successfully");
+    successNotification("Subject deleted successfully");
     callback();
   })
   .catch(function(error) {
-    console.error("Error deleting subject:", error);
+    successNotification("Error deleting subject. Try again");
   });
 }
 
@@ -251,10 +252,10 @@ function removeTopic(topicCode, callback)
   let topicToRemove = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + currentSubject + "/Topics/" + topicCode);
   topicToRemove.push()
   topicToRemove.remove().then(function() {
-    console.log("Topic deleted successfully");
+    successNotification("Topic deleted successfully");
     callback();
   })
   .catch(function(error) {
-    console.error("Error deleting topic:", error);
+    errorNotification("Error deleting topic. Try again");
   });
 }
