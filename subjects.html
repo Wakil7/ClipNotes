@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<!-- <!DOCTYPE html>
+Coding By CodingNepal - youtube.com/codingnepal
 <html lang="en" dir="ltr">
 
 <head>
 
     <meta charset="utf-8">
-    <!-- <title>Notes App in JavaScript | CodingNepal</title> -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="confirmboxstyle.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Iconscout Link For Icons -->
     <link rel="stylesheet" href="toaststyle.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -37,6 +36,81 @@
             <div class="icon"><i class="uil uil-plus"></i></div>
             <p>Add new Subject</p>
         </li>
+    </div>
+
+    <div id="overlay"></div>
+
+    <div id="confirm-popup" class="modal fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4 hidden z-50">
+        <div class="modal-content bg-white rounded-lg shadow-lg p-6 max-w-sm w-full flex flex-col items-center z-50"> 
+            <p class="text-gray-800 text-lg mb-4">Are you sure you want to proceed?</p>
+            <div class="flex space-x-4">
+                <button id="yesBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded confirm-button">Yes</button>
+                <button id="noBtn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded confirm-button">No</button>
+            </div>
+        </div>
+    </div>
+    <div class="toast-container"></div>
+    <script src="toast.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script src="dbcon.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="utf-8">
+    <!-- <title>Notes App in JavaScript | CodingNepal</title> -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="confirmboxstyle.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Iconscout Link For Icons -->
+    <link rel="stylesheet" href="toaststyle.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+</head>
+
+<body>
+    <div class="popup-box">
+        <div class="popup">
+            <div class="content">
+                <header>
+                    <p></p>
+                    <i class="uil uil-times"></i>
+                </header>
+                <form action="#" id="subject-form">
+                    <div class="row title">
+                        <lablel>Subject Name</lablel>
+                        <input type="text" spellcheck="false" id="subject-tag">
+                    </div>
+                    <button id="add-subject-btn">Add Subject</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper" id="subjects">
+        <li class="add-box" id="add-subject">
+            <img src="Icons/add-folder.png" class="subject-image">
+        </li>
+    </div>
+
+    <div id="overlay"></div>
+
+    <div id="confirm-popup" class="modal fixed inset-0 flex items-center justify-center p-4 hidden z-50"> <!-- Adjusted z-index -->
+        <div class="modal-content bg-white rounded-lg shadow-lg p-6 max-w-sm w-full flex flex-col items-center z-50"> <!-- Adjusted z-index -->
+            <p class="text-gray-800 text-lg mb-4">Are you sure you want to proceed?</p>
+            <div class="flex space-x-4">
+                <button id="yesBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded confirm-button">Yes</button>
+                <button id="noBtn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded confirm-button">No</button>
+            </div>
+        </div>
     </div>
     <div class="toast-container"></div>
     <script src="toast.js"></script>

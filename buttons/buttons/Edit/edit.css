@@ -1,0 +1,24 @@
+
+.edit-button{
+    height: 35px;
+    width: 80px;
+    border-radius: 6px;
+    border: 0;
+    background-color: rgb(51, 186, 172);
+    color:rgb(6, 0, 0);
+    align-items: center;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    font-weight: 600px;
+    
+
+}
+
+.edit-button:hover{
+     background-color: transparent; 
+     border: 2px solid black; 
+   
+}
+
+
+

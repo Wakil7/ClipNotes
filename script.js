@@ -8,24 +8,31 @@ const addSubject = document.getElementById("add-subject"),
   subjectForm = document.getElementById("subject-form"),
   displayNote = document.getElementById("display-note"),
   buttonMenu = document.getElementById("button-menu"),
-  addSubjectBtn = document.getElementById("add-subject-btn");
+  addSubjectBtn = document.getElementById("add-subject-btn"),
+  confirmPopup = document.getElementById("confirm-popup"),
+  overlay = document.getElementById("overlay"),
+  yesBtn = document.getElementById("yesBtn"),
+  noBtn = document.getElementById("noBtn");
 
 let isUpdateSubject = false;
-let updateSubjectCode = null;
+let subjectCode = null;
+overlay.style.display = "none";
+confirmPopup.style.display = "none";
 //let subjectArr = JSON.parse(localStorage.getItem("subjects") || "[]");
 //let subjectArr = 
 
 addSubject.addEventListener("click", () => {
   popupTitle.innerText = "Add a New Subject";
-  subjectTag.text = "";
-  addSubject.innerText = "Add Subject";
+  subjectTag.value = "";
+  addSubjectBtn.innerText = "Add Subject";
   popupBox.classList.add("show");
   document.querySelector("body").style.overflow = "hidden";
 });
 
 closeIcon.addEventListener("click", () => {
   isUpdateSubject = false;
-  updateSubjectCode = null;
+  subjectCode = null;
+  subjectTag.value = "";
   popupBox.classList.remove("show");
   document.querySelector("body").style.overflow = "auto";
 });
@@ -53,7 +60,22 @@ function showSubjects() {
 //showSubjects();
 
 
+yesBtn.addEventListener("click", () => {
+  removeSubject(subjectCode, function () {
+    showSubjects();
+  });
+  subjectCode = null;
+  overlay.style.display = "none";
+  confirmPopup.style.display = "none";
+  document.body.style.overflow = "auto";
+  closeIcon.click();
+})
 
+noBtn.addEventListener("click", () => {
+  overlay.style.display = "none";
+  confirmPopup.style.display = "none";
+  document.body.style.overflow = "auto";
+})
 function viewSubject(subCode) {
   sessionStorage.setItem("currentSubject", subCode);
   window.location.href = "topics.html";
@@ -66,16 +88,15 @@ function editSubject(subCode, subName) {
   isUpdateSubject = true;
   popupTitle.innerText = "Update Subject Name";
   addSubjectBtn.innerText = "Update";
-  updateSubjectCode = subCode;
+  subjectCode = subCode;
 }
 
 function deleteSubject(subCode) {
-  let confirmDel = confirm("Are you sure you want to delete this note?");
-  if (!confirmDel) return;
-  removeSubject(subCode, function () {
-    showSubjects();
-  });
-  closeIcon.click();
+  //let confirmDel = confirm("Are you sure you want to delete this note?");
+  overlay.style.display = "block";
+  confirmPopup.style.display = "block";
+  document.body.style.overflow = "hidden";
+  subjectCode = subCode;
 }
 
 addSubjectBtn.addEventListener("click", (e) => {
@@ -85,14 +106,12 @@ addSubjectBtn.addEventListener("click", (e) => {
     alert("Subject name cannot be left blank");
   }
   else {
-    if (isUpdateSubject)
-    {
-      updateSubject(subjectName, updateSubjectCode);
+    if (isUpdateSubject) {
+      updateSubject(subjectName, subjectCode);
       isUpdateSubject = false;
-      updateSubjectCode = null;
+      subjectCode = null;
     }
-    else
-    {
+    else {
       setSubject(subjectName);
     }
     showSubjects();
@@ -111,13 +130,19 @@ function showSubjects() {
     else {
       for (subCode in subjects) {
         let liTag = `<li class="note">
-                          <div class="details" onclick="viewSubject('${subCode}')">
-                              <p id="subject-text">${subjects[subCode].SubjectName}</p>
-                          </div>
-                          <button class="" onclick="editSubject('${subCode}','${subjects[subCode].SubjectName}')"><i class="uil uil-pen"></i>Edit</button>
-                           <button class="" onclick="deleteSubject('${subCode}')"><i class="uil uil-trash"></i>Delete</button>
-  
-                      </li > `;
+        <div class="details" onclick="viewSubject('${subCode}')">
+            <p id="subject-text">${subjects[subCode].SubjectName}</p>
+            <img src="Icons/folder.png" class="subject-image">
+        </div>
+        <div class="button-container">
+            <button id="edit-button" onclick="editSubject('${subCode}','${subjects[subCode].SubjectName}')">
+                <i  class="uil uil-pen"></i>Edit
+            </button>
+            <button id="delete-button" onclick="deleteSubject('${subCode}')">
+                <i  class="uil uil-trash"></i>Delete
+            </button>
+        </div>
+    </li> `;
         addSubject.insertAdjacentHTML("afterend", liTag);
       }
     }
