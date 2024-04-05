@@ -76,6 +76,7 @@ noBtn.addEventListener("click", () => {
   confirmPopup.style.display = "none";
   document.body.style.overflow = "auto";
 })
+
 function viewSubject(subCode) {
   sessionStorage.setItem("currentSubject", subCode);
   window.location.href = "topics.html";
@@ -150,3 +151,5 @@ function showSubjects() {
 }
 
 showSubjects();
+
+

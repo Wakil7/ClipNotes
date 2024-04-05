@@ -1,15 +1,30 @@
 const addTopic = document.getElementById("add-topic"),
   topics = document.getElementById("topics"),
   popupBox = document.querySelector(".popup-box"),
-  popupTitle = popupBox.querySelector("header p"),
-  closeIcon = popupBox.querySelector("header i"),
+  popupTitle = document.getElementById("title-text"),
+  closeIcon = document.getElementById("close-icon"),
   titleTag = document.getElementById("title-tag"),
   descTag = document.getElementById("desc-tag"),
   editForm = document.getElementById("edit-form"),
   displayNote = document.getElementById("display-note"),
   buttonMenu = document.getElementById("button-menu"),
   addTopicBtn = document.getElementById("add-topic-btn"),
-  backBtn = document.getElementById("back-btn");
+  backBtn = document.getElementById("back-btn"),
+  confirmPopup = document.getElementById("confirm-popup"),
+  confirmText = document.getElementById("confirm-text"),
+  overlay = document.getElementById("overlay"),
+  yesBtn = document.getElementById("yesBtn"),
+  noBtn = document.getElementById("noBtn");
+
+
+const closePopupBtn = document.getElementById('close-popup');
+const popup = document.getElementById('popup-box');
+
+
+closePopupBtn.addEventListener('click', () => {
+  popup.style.display = 'none';
+});
+
 
 let currentSubject = sessionStorage.getItem("currentSubject");
 
@@ -30,22 +45,31 @@ const months = [
 const notes = JSON.parse(localStorage.getItem("notes") || "[]");
 
 let isUpdate = false;
-let updateTopicCode = null;
+let topicCode = null;
+overlay.style.display = "none";
+confirmPopup.style.display = "none";
 
 addTopic.addEventListener("click", () => {
-  popupTitle.innerText = "Add a New Topic";
-  addTopicBtn.innerText = "Add Topic";
-  editForm.style.display = "block";
-  displayNote.style.display = "none";
-  buttonMenu.style.display = "none";
-  popupBox.classList.add("show");
-  document.querySelector("body").style.overflow = "hidden";
-  if (window.innerWidth > 660) titleTag.focus();
+  // popupTitle.innerText = "Add a New Topic";
+  // addTopicBtn.innerText = "Add Topic";
+  // editForm.style.display = "block";
+  // displayNote.style.display = "none";
+  // buttonMenu.style.display = "none";
+  // popupBox.classList.add("show");
+  popup.style.display = 'block';
+  // document.querySelector("body").style.overflow = "hidden";
+  // if (window.innerWidth > 660) titleTag.focus();
 });
+
+noBtn.addEventListener("click", () => {
+  overlay.style.display = "none";
+  confirmPopup.style.display = "none";
+  document.body.style.overflow = "auto";
+})
 
 closeIcon.addEventListener("click", () => {
   isUpdate = false;
-  updateTopicCode = null;
+  topicCode = null;
   titleTag.value = descTag.value = "";
   popupBox.classList.remove("show");
   document.querySelector("body").style.overflow = "auto";
@@ -87,7 +111,7 @@ function showNotes() {
 }
 */
 //showNotes();
-
+/*
 function showMenu(elem) {
   elem.parentElement.classList.add("show");
   document.addEventListener("click", (e) => {
@@ -96,6 +120,7 @@ function showMenu(elem) {
     }
   });
 }
+*/
 /*
 function deleteNote(noteId) {
   let confirmDel = confirm("Are you sure you want to delete this note?");
@@ -107,14 +132,26 @@ function deleteNote(noteId) {
 }
 */
 
-function deleteTopic(topicCode) {
-  let confirmDel = confirm("Are you sure you want to delete this topic?");
-  if (!confirmDel) return;
+function deleteTopic(topicId) {
+  //let confirmDel = confirm("Are you sure you want to delete this topic?");
+  overlay.style.display = "block";
+  confirmPopup.style.display = "block";
+  document.body.style.overflow = "hidden";
+  confirmText.text = "Are you sure you want to delete this topic?"
+  topicCode = topicId;
+  
+}
+
+yesBtn.addEventListener("click", ()=>{
   removeTopic(topicCode, function () {
     showTopics();
   });
+  topicCode = null;
+  overlay.style.display = "none";
+  confirmPopup.style.display = "none";
+  document.body.style.overflow = "auto";
   closeIcon.click();
-}
+})
 
 /*
 function updateNote(noteId, title, filterDesc) {
@@ -129,7 +166,7 @@ function updateNote(noteId, title, filterDesc) {
 }
 */
 
-function editTopic(topicCode, title, filterDesc)
+function editTopic(topicId, title, filterDesc)
 {
   let description = filterDesc.replaceAll("<br/>", "\r\n");
   isUpdate = true;
@@ -138,10 +175,10 @@ function editTopic(topicCode, title, filterDesc)
   descTag.value = description;
   popupTitle.innerText = "Update Topic";
   addTopicBtn.innerText = "Update";
-  updateTopicCode = topicCode;
+  topicCode = topicId;
 }
 
-function viewTopic(topicCode, title, filterDesc) {
+function viewTopic(topicId, title, filterDesc) {
   let description = filterDesc.replaceAll("<br/>", "\r\n");
   //updateId = noteId;
   //isUpdate = true;
@@ -163,8 +200,8 @@ function viewTopic(topicCode, title, filterDesc) {
   displayNote.style.marginRight = "auto";
   buttonMenu.style.display = "block";
   //   console.log(noteId);
-  buttonMenu.innerHTML = `<button class="btpop" onclick="editTopic('${topicCode}', '${title}', '${filterDesc}')"><i class="uil uil-pen"></i>Edit</button>
-  <button class="btpop" onclick="deleteTopic('${topicCode}')"><i class="uil uil-trash"></i>Delete</button>`;
+  buttonMenu.innerHTML = `<button class="btpop" onclick="editTopic('${topicId}', '${title}', '${filterDesc}')"><i class="uil uil-pen"></i>Edit</button>
+  <button class="btpop" onclick="deleteTopic('${topicId}')"><i class="uil uil-trash"></i>Delete</button>`;
   displayNote.innerHTML = filterDesc;
   descTag.value = description;
   popupTitle.innerText = title;
@@ -177,7 +214,7 @@ addTopicBtn.addEventListener("click", (e) => {
   let title = titleTag.value.trim(),
     description = descTag.value.trim();
   if (title == "" || description == "") {
-    alert("Title and Description cannot be left blank");
+    errorNotification("Title and Description cannot be left blank");
   }
   else {
     let currentDate = new Date(),
@@ -187,9 +224,9 @@ addTopicBtn.addEventListener("click", (e) => {
       date = `${month} ${day}, ${year}`;
     if (isUpdate)
     {
-      updateTopic(title, description, date, updateTopicCode);
+      updateTopic(title, description, date, topicCode);
       isUpdate = false;
-      updateTopicCode = null;
+      topicCode = null;
     }
     else
     {
@@ -219,7 +256,7 @@ function showTopics() {
         let liTag = `<li class="note"  >
                         <div class="details" onclick="viewTopic('${topicCode}','${topics[topicCode].title}', '${filterDesc}')">
                             <p>${topics[topicCode].title}</p>
-                            <span>${showDesc}</span>
+                                <p>${showDesc}</p>
                         </div>
                         <div class="bottom-content">
                             <span>${topics[topicCode].date}</span>
@@ -233,3 +270,74 @@ function showTopics() {
 }
 
 showTopics();
+
+
+
+
+
+function formatDoc(cmd, value=null) {
+	if(value) {
+		document.execCommand(cmd, false, value);
+	} else {
+		document.execCommand(cmd);
+	}
+}
+
+function addLink() {
+	const url = prompt('Insert url');
+	formatDoc('createLink', url);
+}
+
+
+
+
+const content = document.getElementById('content');
+
+content.addEventListener('mouseenter', function () {
+	const a = content.querySelectorAll('a');
+	a.forEach(item=> {
+		item.addEventListener('mouseenter', function () {
+			content.setAttribute('contenteditable', false);
+			item.target = '_blank';
+		})
+		item.addEventListener('mouseleave', function () {
+			content.setAttribute('contenteditable', true);
+		})
+	})
+})
+
+
+const showCode = document.getElementById('show-code');
+let active = false;
+
+// showCode.addEventListener('click', function () {
+// 	showCode.dataset.active = !active;
+// 	active = !active
+// 	if(active) {
+// 		content.textContent = content.innerHTML;
+// 		content.setAttribute('contenteditable', false);
+// 	} else {
+// 		content.innerHTML = content.textContent;
+// 		content.setAttribute('contenteditable', true);
+// 	}
+// })
+
+
+
+const filename = document.getElementById('filename');
+
+function fileHandle(value) {
+	if(value === 'new') {
+		content.innerHTML = '';
+		filename.value = 'untitled';
+	} else if(value === 'txt') {
+		const blob = new Blob([content.innerText])
+		const url = URL.createObjectURL(blob)
+		const link = document.createElement('a');
+		link.href = url;
+		link.download = `${filename.value}.txt`;
+		link.click();
+	} else if(value === 'pdf') {
+		html2pdf(content).save(filename.value);
+	}
+}
