@@ -40,14 +40,14 @@ function updateSubject(subName, subCode)
 
 //setSubject("Maths2");
 
-function setTopic(topicName, description, date) {
+function setTopic(topicName, content, date) {
   let currentUserName = sessionStorage.getItem("currentUserName");
   let currentSubject = sessionStorage.getItem("currentSubject");
   let topicCode = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/"+currentSubject + "/Topics").push().key;
   let topicRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/"+currentSubject + "/Topics/" + topicCode);
   let topicData = {
     title: topicName,
-    description: description,
+    content: content,
     date: "Added on " + date
   }
   topicRef.set(topicData).then(() => {
@@ -59,14 +59,14 @@ function setTopic(topicName, description, date) {
 }
 
 //setTopic("T2", "D1", "Any");
-function updateTopic(topicName, description, date, topicCode)
+function updateTopic(topicName, content, date, topicCode)
 {
   let currentUserName = sessionStorage.getItem("currentUserName");
   let currentSubject = sessionStorage.getItem("currentSubject");
   let topicRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/"+currentSubject + "/Topics/" + topicCode);
   let topicData = {
     title: topicName,
-    description: description,
+    content: content,
     date: "Updated on " + date
   }
   topicRef.update(topicData).then(() => {

@@ -9,7 +9,7 @@
 }
 
 body {
-  background: #88abff;
+  background: teal;
 }
 
 
@@ -26,18 +26,22 @@ body {
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
-}
+} */
 
 li {
 	margin-left: 16px;
 }
-
+/*
 a {
 	cursor: pointer;
 } */
 
-
-
+.add-subject-img{
+  display: block; 
+  margin: 0 auto; 
+  max-height: 100%; 
+  width: auto; 
+}
 
 .editor-container {
 	max-width: 100%;
@@ -129,7 +133,7 @@ a {
 #show-code[data-active="true"] {
 	background: #eee;
 }
-
+ 
 .popup {
 	display: none;
 	position: fixed;
@@ -138,10 +142,9 @@ a {
 	transform: translate(-50%, -50%);
 	background-color: rgba(0, 0, 0, 0.5);
 	width: 80%;
-	max-width: 2000px; /* Set maximum width of popup box */
+	max-width: 2000px; 
 	padding: 20px;
 	border-radius: 5px;
-	/* color: white; */
   }
   
   .popup-content {
@@ -199,12 +202,7 @@ a {
       gap: 15px;
       grid-template-columns: repeat(auto-fill, 100%);
     }
-    /* .popup-box .popup {
-      max-width: calc(100% - 15px);
-    }
-    .bottom-content .settings i {
-      font-size: 17px;
-    } */
+    
   }
 
 .add-box,
@@ -229,6 +227,7 @@ a {
     text-overflow: ellipsis; 
     white-space: nowrap; 
   }
+
 
   .note p {
     font-size: 22px;
@@ -268,4 +267,61 @@ header,
   display: flex;
   align-items: center;
   justify-content: space-between;
+} 
+
+#view-topic-name{
+  border-radius: 5px;
+  border: 2px solid #000; /* Add border to the box */
+  padding: 5px; /* Add padding inside the box */
+  font-family: Arial, sans-serif; /* Set font family for the text */
+  text-align: center; /* Align text to the center */
+  background: white
+}
+
+#edit-button{
+  width:75px;
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 5px;
+  border: 1px solid rgb(60, 60, 60);
+  background-color: white;
+  color:rgb(6, 0, 0);
+  align-items: center;
+  padding: 2px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: 600px;
+}
+
+#delete-button{
+  width:75px;
+  margin-left: 2px;
+  margin-right: 2px;
+  background-color:white;
+  border-radius: 5px;
+  border: 1px solid rgb(60, 60, 60);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  align-items: center;
+  padding: 2px;
+  font-weight: 600px;
+}
+
+#save-btn{
+  width:75px;
+  margin-left: 2px;
+  margin-right: 2px;
+  background-color:white;
+  border-radius: 5px;
+  border: 1px solid rgb(60, 60, 60);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  align-items: center;
+  padding: 2px;
+  font-weight: 600px;
+}
+
+.topic-img
+{
+  display: block; 
+  margin: 0 auto; 
+  max-height: 80%; 
+  width: auto;
 }
