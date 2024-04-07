@@ -5,14 +5,45 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=1024">
     <link rel="shortcut icon" href="CN.png">
     <link rel="stylesheet" href="toaststyle.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Sign Up Page</title>
+    <link rel="stylesheet" href="navbar.css">
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+    crossorigin="anonymous"></script>
+    <script>
+    $(function() {
+    $(".toggle").on("click", function() {
+        if ($(".item").hasClass("active")) {
+            $(".item").removeClass("active");
+        } else {
+            $(".item").addClass("active");
+        }
+    });
+});
+    </script>
 </head>
 
-<body class="text-[Poppins] bg-gradient-to-b from-sky-500 to-indigo-600 ">
+<body class="text-[Poppins] bg-gradient-to-b from-sky-500 to-indigo-600 main-content">
+    <nav>
+        <ul class="menu">
+            <a href="index.html" class="logo">
+                <img src="ClipNotes.svg" class="clipnotes-logo" alt="ClipNotes Logo">
+            </a>
+            <li class="item"><a href="#">Home</a></li>
+            <li class="item"><a href="#">About</a></li>
+            <!-- <li class="item"><a href="#">Services</a></li> -->
+            </li>
+            <li class="item button"><a href="SignIn.html">Sign In</a></li>
+            <li class="item button secondary"><a href="SignUp.html">Sign Up</a></li>
+            <li class="toggle"><span class="bars"></span></li>
+        </ul>
+    </nav>
     <section>
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 border">
             <!-- <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">

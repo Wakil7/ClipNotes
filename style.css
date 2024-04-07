@@ -9,7 +9,7 @@
 }
 
 body {
-  background: teal;
+  background: linear-gradient(to bottom, #4DC0B5, #4338CA);
 }
 .test-btn
 {
@@ -32,10 +32,11 @@ body {
 }
 
 .wrapper {
-  margin: 50px;
+  margin: 10px;
   display: grid;
   gap: 25px;
   grid-template-columns: repeat(auto-fill, 265px);
+  justify-content: center;
 } 
 
 .wrapper li {
@@ -43,7 +44,7 @@ body {
   list-style: none;
   border-radius: 5px;
   padding: 15px 20px 20px;
-  background: #fff;
+  background: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -168,6 +169,7 @@ header,
 
 
 #edit-button{
+  color: black;
   height: 35px;
   width: 80px;
   margin-left: 5%;
@@ -197,6 +199,7 @@ button {
     align-items: center;
 }
 #delete-button{
+  color: black;
   height: 35px;
   width: 80px;
   margin-left: 5%;
@@ -320,9 +323,9 @@ button {
   margin-bottom: 0;
 }
 
-.menu li:hover {
+/* .menu li:hover {
   background: #f5f5f5;
-}
+} */
 
 .menu li i {
   padding-right: 8px;

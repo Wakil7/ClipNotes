@@ -14,8 +14,10 @@ const addSubject = document.getElementById("add-subject"),
   yesBtn = document.getElementById("yesBtn"),
   noBtn = document.getElementById("noBtn");
 
+let confirmText = document.getElementById("confirm-text");
 let isUpdateSubject = false;
 let subjectCode = null;
+let confirmId = null;
 overlay.style.display = "none";
 confirmPopup.style.display = "none";
 //let subjectArr = JSON.parse(localStorage.getItem("subjects") || "[]");
@@ -61,14 +63,25 @@ function showSubjects() {
 
 
 yesBtn.addEventListener("click", () => {
-  removeSubject(subjectCode, function () {
-    showSubjects();
-  });
-  subjectCode = null;
-  overlay.style.display = "none";
-  confirmPopup.style.display = "none";
-  document.body.style.overflow = "auto";
-  closeIcon.click();
+  if (confirmId=="removeSubject")
+  {
+    removeSubject(subjectCode, function () {
+      showSubjects();
+    });
+    subjectCode = null;
+    overlay.style.display = "none";
+    confirmPopup.style.display = "none";
+    document.body.style.overflow = "auto";
+    closeIcon.click();
+  }
+  else if (confirmId=="logout")
+  {
+    localStorage.removeItem("ClipNotesUserName")
+    localStorage.removeItem("currentUserName");
+    localStorage.removeItem("currentSubject");
+    window.location.href = "index.html";
+  }
+  confirmId = null;
 })
 
 noBtn.addEventListener("click", () => {
@@ -78,7 +91,7 @@ noBtn.addEventListener("click", () => {
 })
 
 function viewSubject(subCode) {
-  sessionStorage.setItem("currentSubject", subCode);
+  localStorage.setItem("currentSubject", subCode);
   window.location.href = "topics.html";
 }
 
@@ -97,6 +110,7 @@ function deleteSubject(subCode) {
   overlay.style.display = "block";
   confirmPopup.style.display = "block";
   document.body.style.overflow = "hidden";
+  confirmId = "removeSubject";
   subjectCode = subCode;
 }
 
@@ -149,6 +163,19 @@ function showSubjects() {
     }
   })
 }
+
+
+const logoutBtn = document.getElementById("logout-button");
+logoutBtn.addEventListener("click", ()=>{
+  confirmText.innerText = "Are you sure you want to logout?"
+  confirmId = "logout";
+    overlay.style.display = "block";
+  confirmPopup.style.display = "block";
+  document.body.style.overflow = "hidden";
+  
+});
+
+
 
 showSubjects();
 

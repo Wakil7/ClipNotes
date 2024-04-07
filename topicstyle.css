@@ -9,9 +9,8 @@
 }
 
 body {
-  background: teal;
+  background: linear-gradient(to bottom, #4DC0B5, #4338CA);
 }
-
 
 /* * {
 	margin: 0;
@@ -119,6 +118,7 @@ a {
 	align-items: center;
 	justify-content: center;
 	font-size: 18px;
+  color: black;
 }
 .editor-toolbar .editor-btn-toolbar button:hover {
 	background: #f3f3f3;
@@ -279,6 +279,7 @@ header,
 }
 
 #edit-button{
+  color: black;
   width:75px;
   margin-left: 2px;
   margin-right: 2px;
@@ -293,6 +294,7 @@ header,
 }
 
 #delete-button{
+  color: black;
   width:75px;
   margin-left: 2px;
   margin-right: 2px;
@@ -306,6 +308,7 @@ header,
 }
 
 #save-btn{
+  color: black;
   width:75px;
   margin-left: 2px;
   margin-right: 2px;

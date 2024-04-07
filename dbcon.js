@@ -10,11 +10,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 let notesDB = firebase.database();
-
+let remember = document.getElementById("remember");
 
 function setSubject(subName) {
   //let newSubRef = notesDB.child(userName).child(subName);
-  let currentUserName = sessionStorage.getItem("currentUserName");
+  let currentUserName = localStorage.getItem("currentUserName");
   let subjectCode = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects").push().key;
   let newSubRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + subjectCode);
   newSubRef.set({ "SubjectName": subName }).then(() => {
@@ -27,7 +27,7 @@ function setSubject(subName) {
 
 function updateSubject(subName, subCode)
 {
-  let currentUserName = sessionStorage.getItem("currentUserName");
+  let currentUserName = localStorage.getItem("currentUserName");
   let subRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + subCode);
   subRef.update({ "SubjectName": subName }).then(() => {
     successNotification(subName + " folder updated successfully")
@@ -41,8 +41,8 @@ function updateSubject(subName, subCode)
 //setSubject("Maths2");
 
 function setTopic(topicName, content, date) {
-  let currentUserName = sessionStorage.getItem("currentUserName");
-  let currentSubject = sessionStorage.getItem("currentSubject");
+  let currentUserName = localStorage.getItem("currentUserName");
+  let currentSubject = localStorage.getItem("currentSubject");
   let topicCode = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/"+currentSubject + "/Topics").push().key;
   let topicRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/"+currentSubject + "/Topics/" + topicCode);
   let topicData = {
@@ -61,8 +61,8 @@ function setTopic(topicName, content, date) {
 //setTopic("T2", "D1", "Any");
 function updateTopic(topicName, content, date, topicCode)
 {
-  let currentUserName = sessionStorage.getItem("currentUserName");
-  let currentSubject = sessionStorage.getItem("currentSubject");
+  let currentUserName = localStorage.getItem("currentUserName");
+  let currentSubject = localStorage.getItem("currentSubject");
   let topicRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/"+currentSubject + "/Topics/" + topicCode);
   let topicData = {
     title: topicName,
@@ -98,7 +98,8 @@ function userSignUp(username, email, password) {
     }
 
     notesDB.ref("ClipNotes").child(username).set(userData).then(() => {
-      sessionStorage.setItem("currentUserName", username);
+      localStorage.setItem("currentUserName", username);
+      history.replaceState(null, null, "subjects.html");
       window.location.href = "subjects.html";
     })
       .catch((error) => {
@@ -116,7 +117,12 @@ function userSignIn(username, password) {
         let passwordFromUser = encryptPassword(password);
         let passwordFromDb = data[username].password;
         if (passwordFromUser == passwordFromDb) {
-          sessionStorage.setItem("currentUserName", username);
+          localStorage.setItem("currentUserName", username);
+          history.replaceState(null, null, "subjects.html");
+          if (remember.checked)
+          {
+              localStorage.setItem("ClipNotesUserName", username);
+          }
           window.location.href = "subjects.html"
           return;
         }
@@ -191,7 +197,7 @@ function fetchSubjects(callback) {
 
     }
   }, 10000);
-  let currentUserName = sessionStorage.getItem("currentUserName");
+  let currentUserName = localStorage.getItem("currentUserName");
   let userSubjectData = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects");
 
   userSubjectData.once('value')
@@ -215,8 +221,8 @@ function fetchTopics(callback)
 
     }
   }, 10000);
-  let currentSubject = sessionStorage.getItem("currentSubject");
-  let currentUserName = sessionStorage.getItem("currentUserName");
+  let currentSubject = localStorage.getItem("currentSubject");
+  let currentUserName = localStorage.getItem("currentUserName");
   let userTopicData = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + currentSubject + "/Topics");
   userTopicData.once('value')
     .then(function (data) {
@@ -232,7 +238,7 @@ function fetchTopics(callback)
 
 function removeSubject(subCode, callback)
 {
-  let currentUserName = sessionStorage.getItem("currentUserName");
+  let currentUserName = localStorage.getItem("currentUserName");
   let subjectToRemove = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + subCode);
   subjectToRemove.remove()
   .then(function() {
@@ -246,8 +252,8 @@ function removeSubject(subCode, callback)
 
 function removeTopic(topicCode, callback)
 {
-  let currentUserName = sessionStorage.getItem("currentUserName");
-  let currentSubject = sessionStorage.getItem("currentSubject");
+  let currentUserName = localStorage.getItem("currentUserName");
+  let currentSubject = localStorage.getItem("currentSubject");
   console.log(currentSubject);
   let topicToRemove = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + currentSubject + "/Topics/" + topicCode);
   topicToRemove.push()

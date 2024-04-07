@@ -7,6 +7,7 @@
   width: 90%;
   max-width: 400px;
   z-index: 10000; /* Adjust the z-index to be higher than the overlay */
+  display: none;
 }
 
 .modal-content {

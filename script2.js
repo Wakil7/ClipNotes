@@ -37,7 +37,7 @@ closePopupBtn.addEventListener('click', () => {
 });
 
 
-let currentSubject = sessionStorage.getItem("currentSubject");
+let currentSubject = localStorage.getItem("currentSubject");
 
 const months = [
   "January",
@@ -57,6 +57,7 @@ const notes = JSON.parse(localStorage.getItem("notes") || "[]");
 
 let isUpdate = false;
 let topicCode = null;
+let confirmId = null;
 overlay.style.display = "none";
 confirmPopup.style.display = "none";
 
@@ -153,16 +154,27 @@ function deleteTopic(topicId) {
   overlay.style.display = "block";
   confirmPopup.style.display = "block";
   document.body.style.overflow = "hidden";
-  confirmText.text = "Are you sure you want to delete this topic?"
+  confirmText.innerText = "Are you sure you want to delete this topic?"
+  confirmId = "removeTopic";
   topicCode = topicId;
 
 }
 
 yesBtn.addEventListener("click", () => {
-  removeTopic(topicCode, function () {
-    showTopics();
-  });
-  topicCode = null;
+  if (confirmId=="removeTopic")
+  {
+    removeTopic(topicCode, function () {
+      showTopics();
+    });
+    topicCode = null;
+  }
+  else if (confirmId=="logout")
+  {
+    localStorage.removeItem("ClipNotesUserName")
+    localStorage.removeItem("currentUserName");
+    localStorage.removeItem("currentSubject");
+    window.location.href = "index.html";
+  }
   overlay.style.display = "none";
   confirmPopup.style.display = "none";
   document.body.style.overflow = "auto";
@@ -376,8 +388,18 @@ content.addEventListener('mouseenter', function () {
 })
 
 
-const showCode = document.getElementById('show-code');
-let active = false;
+//const showCode = document.getElementById('show-code');
+//let active = false;
+
+const logoutBtn = document.getElementById("logout-button");
+logoutBtn.addEventListener("click", ()=>{
+     overlay.style.display = "block";
+  confirmPopup.style.display = "block";
+  document.body.style.overflow = "hidden";
+  confirmText.innerText = "Are you sure you want to logout?"
+  confirmId = "logout";
+});
+
 
 // showCode.addEventListener('click', function () {
 // 	showCode.dataset.active = !active;

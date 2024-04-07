@@ -4,13 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipNote</title>
+    <title>ClipNotes</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="navbar.css">
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+    crossorigin="anonymous"></script>
+    <script>
+    $(function() {
+    $(".toggle").on("click", function() {
+        if ($(".item").hasClass("active")) {
+            $(".item").removeClass("active");
+        } else {
+            $(".item").addClass("active");
+        }
+    });
+});
+    </script>
 </head>
 
 <body class="bg-gray-100 font-[Poppins] overflow-hidden">
-    <nav class="bg-green-400 border-gray-200 px-2 sm:px-4 py-2.5">
+    <!-- <nav class="bg-green-400 border-gray-200 px-2 sm:px-4 py-2.5">
         <div class="container flex flex-wrap justify-between items-center mx-auto">
             <a href="index.html" class="flex items-center">
                 <img src="ClipNotes.svg" class="h-8 mr-3" alt="ClipNotes Logo">
@@ -19,8 +35,21 @@
             <a href="SignUp.html" class="text-white text-xl hover:text-blue-800 py-2 px-4">Sign Up</a>
             <a href="SignIn.html" class="text-white text-xl hover:text-blue-800 py-2 px-4">Sign In</a>
         </div>
+    </nav> -->
+    <nav>
+        <ul class="menu">
+            <a href="index.html" class="logo">
+                <img src="ClipNotes.svg" class="clipnotes-logo" alt="ClipNotes Logo">
+            </a>
+            <li class="item"><a href="#">Home</a></li>
+            <li class="item"><a href="#">About</a></li>
+            <!-- <li class="item"><a href="#">Services</a></li> -->
+            </li>
+            <li class="item button"><a href="SignIn.html">Sign In</a></li>
+            <li class="item button secondary"><a href="SignUp.html">Sign Up</a></li>
+            <li class="toggle"><span class="bars"></span></li>
+        </ul>
     </nav>
-
     <section class="text-center px-6 py-12 md:py-24">
         <h1 class="text-4xl md:text-5xl font-bold mb-4">
             Forget about your messy notes.

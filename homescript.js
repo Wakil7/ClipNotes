@@ -7,7 +7,7 @@ startBtn.addEventListener("click",()=>{
     }
     else
     {
-        sessionStorage.setItem("currentUserName", username);
+        localStorage.setItem("currentUserName", username);
         window.location.href = "subjects.html"
     }
 })
