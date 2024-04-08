@@ -51,6 +51,9 @@ main {
   position: relative;
 }
 
+
+
+
 @keyframes appear {
   from {
     right: -100%;

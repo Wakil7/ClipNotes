@@ -12,7 +12,8 @@ const addSubject = document.getElementById("add-subject"),
   confirmPopup = document.getElementById("confirm-popup"),
   overlay = document.getElementById("overlay"),
   yesBtn = document.getElementById("yesBtn"),
-  noBtn = document.getElementById("noBtn");
+  noBtn = document.getElementById("noBtn"),
+  loadingPopup = document.getElementById("loading-popup");
 
 let confirmText = document.getElementById("confirm-text");
 let isUpdateSubject = false;
@@ -65,6 +66,7 @@ function showSubjects() {
 yesBtn.addEventListener("click", () => {
   if (confirmId=="removeSubject")
   {
+    loadingText.innerText = "Deleting Subject. Please Wait";
     removeSubject(subjectCode, function () {
       showSubjects();
     });
@@ -118,15 +120,17 @@ addSubjectBtn.addEventListener("click", (e) => {
   e.preventDefault();
   let subjectName = subjectTag.value.trim();
   if (subjectName == "") {
-    alert("Subject name cannot be left blank");
+    errorNotification("Subject name cannot be left blank");
   }
   else {
     if (isUpdateSubject) {
+      loadingText.innerText = "Updating Subject. Please Wait";
       updateSubject(subjectName, subjectCode);
       isUpdateSubject = false;
       subjectCode = null;
     }
     else {
+      loadingText.innerText = "Adding Subject. Please Wait";
       setSubject(subjectName);
     }
     showSubjects();
@@ -137,20 +141,23 @@ addSubjectBtn.addEventListener("click", (e) => {
 
 
 function showSubjects() {
-  fetchSubjects(function (subjects) {
+  loadingPopup.style.display = "block";
+  fetchSubjects(function (sub) {
+    loadingPopup.style.display = "none";
+    // subjects.style.display = "block";
     document.querySelectorAll(".note").forEach((li) => li.remove());
-    if (subjects == null) {
-      console.log("No Subjects Added. Create a new Subject Folder");
+    if (sub == null) {
+      // successNotification("No Subjects Added. Create a new Subject Folder");
     }
     else {
-      for (subCode in subjects) {
+      for (subCode in sub) {
         let liTag = `<li class="note">
         <div class="details" onclick="viewSubject('${subCode}')">
-            <p id="subject-text">${subjects[subCode].SubjectName}</p>
+            <p id="subject-text">${sub[subCode].SubjectName}</p>
             <img src="Icons/folder.png" class="subject-image">
         </div>
         <div class="button-container">
-            <button id="edit-button" onclick="editSubject('${subCode}','${subjects[subCode].SubjectName}')">
+            <button id="edit-button" onclick="editSubject('${subCode}','${sub[subCode].SubjectName}')">
                 <i  class="uil uil-pen"></i>Edit
             </button>
             <button id="delete-button" onclick="deleteSubject('${subCode}')">
@@ -178,5 +185,3 @@ logoutBtn.addEventListener("click", ()=>{
 
 
 showSubjects();
-
-

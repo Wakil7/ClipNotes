@@ -24,6 +24,7 @@ const editBtn = document.getElementById("edit-button");
 const deleteBtn = document.getElementById("delete-button");
 const editorTools = document.getElementById("editor-tools");
 const viewMenu = document.getElementById("view-menu");
+const loadingPopup = document.getElementById("loading-popup");
 
 
 const closePopupBtn = document.getElementById('close-popup');
@@ -31,9 +32,19 @@ const popup = document.getElementById('popup-box');
 
 
 closePopupBtn.addEventListener('click', () => {
-  popup.style.display = 'none';
-  isUpdate = false;
-  topicCode = null;
+  if (isUpdate || isAddTopic) {
+    overlay.style.display = "block";
+    confirmPopup.style.display = "block";
+    document.body.style.overflow = "hidden";
+    confirmText.innerText = "Your changes are not saved.\n Do you want to close?"
+    confirmId = "closeEditor";
+  }
+  else {
+    popup.style.display = 'none';
+    isUpdate = false;
+    topicCode = null;
+    isAddTopic = false;
+  }
 });
 
 
@@ -58,6 +69,7 @@ const notes = JSON.parse(localStorage.getItem("notes") || "[]");
 let isUpdate = false;
 let topicCode = null;
 let confirmId = null;
+let isAddTopic = false;
 overlay.style.display = "none";
 confirmPopup.style.display = "none";
 
@@ -74,6 +86,7 @@ addTopic.addEventListener("click", () => {
   content.innerText = "";
   topicName.value = "";
   content.setAttribute('contenteditable', true);
+  isAddTopic = true;
   // document.querySelector("body").style.overflow = "hidden";
   // if (window.innerWidth > 660) titleTag.focus();
 });
@@ -161,24 +174,30 @@ function deleteTopic(topicId) {
 }
 
 yesBtn.addEventListener("click", () => {
-  if (confirmId=="removeTopic")
-  {
+  if (confirmId == "removeTopic") {
+    loadingText.innerText = "Deleting Topic. Please Wait";
     removeTopic(topicCode, function () {
       showTopics();
     });
     topicCode = null;
   }
-  else if (confirmId=="logout")
-  {
+  else if (confirmId == "logout") {
     localStorage.removeItem("ClipNotesUserName")
     localStorage.removeItem("currentUserName");
     localStorage.removeItem("currentSubject");
     window.location.href = "index.html";
   }
+  else if (confirmId == "closeEditor") {
+    popup.style.display = 'none';
+    isUpdate = false;
+    topicCode = null;
+    isAddTopic = false;
+  }
   overlay.style.display = "none";
   confirmPopup.style.display = "none";
   document.body.style.overflow = "auto";
   popup.style.display = "none"
+  confirmId=null;
 })
 
 /*
@@ -205,7 +224,6 @@ function editTopic(topicId) {
   isUpdate = true;
   topicCode = topicId;
   content.setAttribute('contenteditable', true);
-  isUpdate = true;
   editorTools.style.display = "block";
   viewMenu.style.display = "none";
 }
@@ -237,6 +255,8 @@ function viewTopic(topicId, viewTopicName) {
   // descTag.value = description;
   // popupTitle.innerText = title;
   // addTopicBtn.innerText = "Close";
+  loadingText.innerText = "Loading...";
+  loadingPopup.style.display = "block";
   fetchTopics(function (topics) {
     for (topicCode in topics) {
       if (topicCode == topicId) {
@@ -244,6 +264,7 @@ function viewTopic(topicId, viewTopicName) {
         break;
       }
     }
+    loadingPopup.style.display = "none";
     popup.style.display = 'block';
     editorTools.style.display = "block";
     viewMenu.style.display = "none";
@@ -263,7 +284,7 @@ saveBtn.addEventListener("click", () => {
   let saveTopicName = topicName.value.trim();
   let saveContent = content.innerHTML;
   if (saveTopicName == "") {
-    errorNotification("Please add a topic Name");
+    errorNotification("Please add a Topic Name");
   }
 
   else if (content.innerText.trim() == "") {
@@ -275,12 +296,15 @@ saveBtn.addEventListener("click", () => {
       day = currentDate.getDate(),
       year = currentDate.getFullYear(),
       date = `${month} ${day}, ${year}`;
+      isAddTopic = false;
     if (isUpdate) {
+      loadingText.innerText = "Updating Topic. Please Wait";
       updateTopic(saveTopicName, saveContent, date, topicCode);
       isUpdate = false;
       topicCode = null;
     }
     else {
+      loadingText.innerText = "Adding Topic. Please Wait";
       setTopic(saveTopicName, saveContent, date);
       topicName.value = "";
       content.innerText = "";
@@ -323,11 +347,13 @@ addTopicBtn.addEventListener("click", (e) => {
 
 
 function showTopics() {
+  loadingPopup.style.display = "block";
   fetchTopics(function (topics) {
+    loadingPopup.style.display = "none";
     document.querySelectorAll(".note").forEach((li) => li.remove());
     //console.log(topics)
     if (topics == null) {
-      console.log("You haven't added any topics yet");
+      //console.log("You haven't added any topics yet");
     }
     else {
       for (topicCode in topics) {
@@ -336,7 +362,7 @@ function showTopics() {
         let topicContent = topics[topicCode].content;
         let liTag = `<li class="note"  >
                         <div class="details" onclick="viewTopic('${topicCode}','${topics[topicCode].title}')">
-                            <p>${topics[topicCode].title}</p>
+                            <p id="topic-text">${topics[topicCode].title}</p>
                             <img src="Icons/sticky-note.png" class="topic-img">
                         </div>
                         <div class="bottom-content">
@@ -392,8 +418,8 @@ content.addEventListener('mouseenter', function () {
 //let active = false;
 
 const logoutBtn = document.getElementById("logout-button");
-logoutBtn.addEventListener("click", ()=>{
-     overlay.style.display = "block";
+logoutBtn.addEventListener("click", () => {
+  overlay.style.display = "block";
   confirmPopup.style.display = "block";
   document.body.style.overflow = "hidden";
   confirmText.innerText = "Are you sure you want to logout?"

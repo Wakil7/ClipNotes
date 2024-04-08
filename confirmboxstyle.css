@@ -5,22 +5,32 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90%;
-  max-width: 400px;
+  max-width: 350px;
   z-index: 10000; /* Adjust the z-index to be higher than the overlay */
   display: none;
 }
 
 .modal-content {
-  background-color: #fff;
+  /* background-color: #fff;
   margin: 10% auto;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 90%;
-  max-width: 400px;
-  display: flex; /* Add this line */
-  flex-direction: column; /* Add this line */
-  align-items: center; /* Add this line */
+  max-width: 350px;
+  display: flex; 
+  flex-direction: column;  */
+  align-items: center; 
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  max-width: 20rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 50;
 
 }
 #overlay {
@@ -33,6 +43,9 @@
   z-index: 9999; /* Adjust the z-index to be higher than other content */
 }
 
+.confirm-buttons{
+  display: flex;
+}
 
 .modal-content p {
   font-size: 16px;
@@ -42,14 +55,39 @@
 }
 
 .confirm-button {
+
   border: none;
   outline: none;
   padding: 10px 20px;
   border-radius: 5px;
   font-size: 14px;
   cursor: pointer;
-  margin: 5px; /* Adjusted for spacing around buttons */
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 25px;
+  margin-right: 25px;
 
+}
+
+
+.confirm-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#yesBtn {
+  background-color: #05b074;
+}
+
+#yesBtn:hover {
+  background-color: #6ee7b7;
+}
+
+#noBtn {
+  background-color: #f31a1a;
+}
+
+#noBtn:hover {
+  background-color: #f87171;
 }
 
 /* Continue with existing styles and media query */

@@ -60,7 +60,7 @@ a {
 	flex-wrap: wrap;
 }
 .editor-toolbar .editor-head > input {
-	max-width: 100px;
+	max-width: 250px;
 	padding: 6px 10px;
 	border-radius: 6px;
 	border: 2px solid #ddd;
@@ -139,8 +139,8 @@ a {
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: rgba(0, 0, 0, 0.5);
+	transform: translate(-50%, -45%);
+	background-color: rgba(0, 99, 78, 0.791);
 	width: 80%;
 	max-width: 2000px; 
 	padding: 20px;
@@ -158,6 +158,10 @@ a {
 	cursor: pointer;
   }
 
+  /* .note p {
+    font-size: 22px;
+    font-weight: 500;
+  } */
   .wrapper {
     margin: 50px;
     display: grid;
@@ -230,7 +234,7 @@ a {
 
 
   .note p {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 500;
   }
   

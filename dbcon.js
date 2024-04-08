@@ -11,6 +11,7 @@ firebase.initializeApp(firebaseConfig);
 
 let notesDB = firebase.database();
 let remember = document.getElementById("remember");
+let loadingText = document.getElementById("loading-text")
 
 function setSubject(subName) {
   //let newSubRef = notesDB.child(userName).child(subName);
@@ -193,7 +194,7 @@ function fetchSubjects(callback) {
   let subjectFetched = false;
   let timeout = setTimeout(function () {
     if (!subjectFetched) {
-      console.log("Fetching Subjects is taking too long. Please check your internet connection and try again");
+      loadingText.innerText = "Loading Subjects is taking longer than expected.\n Please check your internet connection and try refreshing the page"
 
     }
   }, 10000);
@@ -217,7 +218,7 @@ function fetchTopics(callback)
   let topicFetched = false;
   let timeout = setTimeout(function () {
     if (!topicFetched) {
-      console.log("Fetching Topics is taking too long. Please check your internet connection and try again");
+      loadingText.innerText = "Loading Topics is taking longer than expected.\n Please check your internet connection and try refreshing the page"
 
     }
   }, 10000);
