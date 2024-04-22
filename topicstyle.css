@@ -9,7 +9,7 @@
 }
 
 body {
-  background: linear-gradient(to bottom, #4DC0B5, #4338CA);
+  background: teal;
 }
 
 /* * {
@@ -46,7 +46,7 @@ a {
 	max-width: 100%;
 	width: 100%;
 	background: #fff;
-	border-radius: 8px;
+	border-radius: 10px;
 	overflow: hidden;
 }
 .editor-toolbar {
@@ -60,7 +60,7 @@ a {
 	flex-wrap: wrap;
 }
 .editor-toolbar .editor-head > input {
-	max-width: 250px;
+	max-width: 190px;
 	padding: 6px 10px;
 	border-radius: 6px;
 	border: 2px solid #ddd;
@@ -140,11 +140,11 @@ a {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -45%);
-	background-color: rgba(0, 99, 78, 0.791);
+	background-color: rgba(0, 54, 42, 0.791);
 	width: 80%;
 	max-width: 2000px; 
-	padding: 20px;
-	border-radius: 5px;
+	padding: 5px;
+	border-radius: 10px;
   }
   
   .popup-content {
@@ -311,19 +311,22 @@ header,
   font-weight: 600px;
 }
 
-#save-btn{
-  color: black;
-  width:75px;
-  margin-left: 2px;
-  margin-right: 2px;
-  background-color:white;
-  border-radius: 5px;
-  border: 1px solid rgb(60, 60, 60);
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  align-items: center;
-  padding: 2px;
-  font-weight: 600px;
+#save-btn {
+  width: 100px; /* Increased width for better readability */
+  padding: 8px 16px; /* Increased padding for better button size */
+  background-color: #007804; /* Green */
+  color: white;
+  border: none;
+  border-radius: 10px; /* Increased border radius for a smoother look */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Adjusted box shadow for a lifted effect */
+  cursor: pointer;
+  /* Changed font weight for better emphasis */
 }
+
+#save-btn:hover {
+  background-color: #00a508; /* Darker green on hover */
+}
+
 
 .topic-img
 {

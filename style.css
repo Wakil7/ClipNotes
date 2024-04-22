@@ -9,7 +9,7 @@
 }
 
 body {
-  background: linear-gradient(to bottom, #4DC0B5, #4338CA);
+  background:teal;
 }
 .test-btn
 {
@@ -128,6 +128,130 @@ body {
   /* Center the paragraph */
 }
 
+/* Popup Design Start */
+.popup-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.popup-box .popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  width: 100%;
+  max-width: 400px;
+  justify-content: center;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
+  border-radius: 10px;
+  border: 5px solid #075c57; /* Added border */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.popup-box,
+.popup {
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.popup-box.show,
+.popup-box.show .popup {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.popup-box.show .popup {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popup .content {
+  border-radius: 5px;
+  background: #fff;
+  width: calc(200% - 150px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.content header {
+  padding: 15px 25px;
+  border-bottom: 1px solid #ccc;
+}
+
+.content header p {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.content header i {
+  color: #8b8989;
+  cursor: pointer;
+  font-size: 23px;
+}
+
+.content form {
+  margin: 10px 25px 35px;
+}
+
+.content form .row {
+  margin-bottom: 20px;
+}
+
+form .row label {
+  font-size: 18px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+form input[type="text"],
+form textarea {
+  height: 40px;
+  width: 100%;
+  outline: none;
+  font-size: 17px;
+  padding: 0 20px;
+  border-radius: 4px;
+  border: 1px solid #999;
+  background: linear-gradient(to bottom, #f3f3f3, #e7e7e7);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form input[type="text"]:focus,
+form textarea:focus {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.11);
+}
+
+form textarea {
+  height: 150px;
+  resize: none;
+  padding: 15px;
+}
+
+form button {
+  width: 100%;
+  height: 50px;
+  color: #fff;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-size: 17px;
+  border-radius: 4px;
+  background: linear-gradient(to bottom, #075c57, #07494b);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form button:hover {
+  background: linear-gradient(to bottom, #109c93, #12797c);
+}
+
+
+/* Popup Design End */
+
 .add-box,
 .icon,
 .bottom-content,
@@ -169,15 +293,17 @@ header,
 
 
 #edit-button{
-  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
   height: 35px;
   width: 80px;
   margin-left: 5%;
   margin-right: 5%;
   border-radius: 6px;
   border: 1px solid rgb(60, 60, 60);
-  background-color: rgb(51, 186, 172);
-  color:rgb(6, 0, 0);
+  background-color: rgb(0, 144, 0);
   align-items: center;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
@@ -187,24 +313,23 @@ header,
 }
 
 #edit-button:hover{
-   background-color: transparent; 
+   background-color:  rgb(0, 87, 0); 
    border: 2px solid black; 
  
 }
 
 
-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 #delete-button{
-  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
   height: 35px;
   width: 80px;
   margin-left: 5%;
   margin-right: 5%;
-  background-color:rgb(231, 84, 84);
+  background-color:rgb(232, 38, 38);
   border-radius: 5px;
   border: 1px solid rgb(60, 60, 60);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -216,7 +341,8 @@ button {
 
 #delete-button:hover{
   border: 2px solid black;
-  background-color: transparent ;
+  background-color:   rgb(176, 0, 0);
+  ;
   
 }
 
@@ -331,7 +457,7 @@ button {
   padding-right: 8px;
 }
 
-.popup-box {
+/* .popup-box {
   position: fixed;
   top: 0;
   left: 0;
@@ -339,9 +465,9 @@ button {
   height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.4);
-}
 
-.popup-box .popup {
+
+ .popup-box .popup {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -436,7 +562,7 @@ form button {
   font-size: 17px;
   border-radius: 4px;
   background: #6a93f8;
-}
+} */
 
 @media (max-width: 660px) {
   .wrapper {

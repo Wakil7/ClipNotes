@@ -1,10 +1,11 @@
 /* Add this CSS to center the modal within the viewport */
 .modal {
   position: fixed;
+
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90%;
+  width: 100%;
   max-width: 350px;
   z-index: 10000; /* Adjust the z-index to be higher than the overlay */
   display: none;
@@ -20,6 +21,7 @@
   max-width: 350px;
   display: flex; 
   flex-direction: column;  */
+  border: 1px solid rgb(128, 128, 128);
   align-items: center; 
   background-color: #ffffff;
   border-radius: 0.5rem;
@@ -75,11 +77,11 @@
 }
 
 #yesBtn {
-  background-color: #05b074;
+  background-color: #00ac33;
 }
 
 #yesBtn:hover {
-  background-color: #6ee7b7;
+  background-color: #007816;
 }
 
 #noBtn {
@@ -87,7 +89,7 @@
 }
 
 #noBtn:hover {
-  background-color: #f87171;
+  background-color: #940000;
 }
 
 /* Continue with existing styles and media query */

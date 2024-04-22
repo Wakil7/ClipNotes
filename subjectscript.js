@@ -158,7 +158,7 @@ function showSubjects() {
         </div>
         <div class="button-container">
             <button id="edit-button" onclick="editSubject('${subCode}','${sub[subCode].SubjectName}')">
-                <i  class="uil uil-pen"></i>Edit
+            <i  class="uil uil-pen"></i>Edit
             </button>
             <button id="delete-button" onclick="deleteSubject('${subCode}')">
                 <i  class="uil uil-trash"></i>Delete
