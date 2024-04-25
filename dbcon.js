@@ -255,7 +255,7 @@ function removeTopic(topicCode, callback)
 {
   let currentUserName = localStorage.getItem("currentUserName");
   let currentSubject = localStorage.getItem("currentSubject");
-  console.log(currentSubject);
+  // console.log(currentSubject);
   let topicToRemove = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + currentSubject + "/Topics/" + topicCode);
   topicToRemove.push()
   topicToRemove.remove().then(function() {

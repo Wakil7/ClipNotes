@@ -20,7 +20,7 @@ const content = document.getElementById("content");
 const saveBtn = document.getElementById("save-btn");
 const topicName = document.getElementById("topic-name");
 const viewTopicLabel = document.getElementById("view-topic-name");
-const editBtn = document.getElementById("edit-button");
+// const editBtn = document.getElementById("edit-button");
 const deleteBtn = document.getElementById("delete-button");
 const editorTools = document.getElementById("editor-tools");
 const viewMenu = document.getElementById("view-menu");
@@ -42,7 +42,7 @@ closePopupBtn.addEventListener('click', () => {
   else {
     popup.style.display = 'none';
     isUpdate = false;
-    topicCode = null;
+    globalTopicCode = null;
     isAddTopic = false;
   }
 });
@@ -67,7 +67,7 @@ const months = [
 const notes = JSON.parse(localStorage.getItem("notes") || "[]");
 
 let isUpdate = false;
-let topicCode = null;
+let globalTopicCode = null;
 let confirmId = null;
 let isAddTopic = false;
 overlay.style.display = "none";
@@ -96,6 +96,15 @@ noBtn.addEventListener("click", () => {
   confirmPopup.style.display = "none";
   document.body.style.overflow = "auto";
 })
+
+function showMenu(elem) {
+  elem.parentElement.classList.add("show");
+  document.addEventListener("click", (e) => {
+    if (e.target.tagName != "I" || e.target != elem) {
+      elem.parentElement.classList.remove("show");
+    }
+  });
+}
 
 // closeIcon.addEventListener("click", () => {
 //   isUpdate = false;
@@ -169,17 +178,17 @@ function deleteTopic(topicId) {
   document.body.style.overflow = "hidden";
   confirmText.innerText = "Are you sure you want to delete this topic?"
   confirmId = "removeTopic";
-  topicCode = topicId;
+  globalTopicCode = topicId;
 
 }
 
 yesBtn.addEventListener("click", () => {
   if (confirmId == "removeTopic") {
     loadingText.innerText = "Deleting Topic. Please Wait";
-    removeTopic(topicCode, function () {
+    removeTopic(globalTopicCode, function () {
       showTopics();
     });
-    topicCode = null;
+    globalTopicCode = null;
   }
   else if (confirmId == "logout") {
     localStorage.removeItem("ClipNotesUserName")
@@ -190,7 +199,7 @@ yesBtn.addEventListener("click", () => {
   else if (confirmId == "closeEditor") {
     popup.style.display = 'none';
     isUpdate = false;
-    topicCode = null;
+    globalTopicCode = null;
     isAddTopic = false;
   }
   overlay.style.display = "none";
@@ -221,11 +230,26 @@ function editTopic(topicId) {
   // descTag.value = description;
   // popupTitle.innerText = "Update Topic";
   // addTopicBtn.innerText = "Update";
-  isUpdate = true;
-  topicCode = topicId;
+  loadingText.innerText = "Loading...";
+  loadingPopup.style.display = "block";
+  let editTopicName;
+  fetchTopics(function (topics) {
+    for (topicCode in topics) {
+      if (topicCode == topicId) {
+        content.innerHTML = topics[topicCode].content;
+        editTopicName = topics[topicCode].title;
+        break;
+      }
+    }
+    loadingPopup.style.display = "none";
+    popup.style.display = 'block';
+    isUpdate = true;
+  globalTopicCode = topicId;
+  topicName.value = editTopicName;
   content.setAttribute('contenteditable', true);
   editorTools.style.display = "block";
   viewMenu.style.display = "none";
+  });
 }
 
 function viewTopic(topicId, viewTopicName) {
@@ -272,9 +296,7 @@ function viewTopic(topicId, viewTopicName) {
     editorTools.style.display = "none";
     viewMenu.style.display = "block";
     content.setAttribute('contenteditable', false);
-    viewMenu.innerHTML = `<label id="view-topic-name">${viewTopicName}</label>
-  <button id="edit-button" onclick="editTopic('${topicId}')">Edit</button>
-  <button id="delete-button" onclick="deleteTopic('${topicId}')">Delete</button>`;
+    viewMenu.innerHTML = `<label id="view-topic-name">${viewTopicName}</label>`;
   });
 
 
@@ -299,9 +321,9 @@ saveBtn.addEventListener("click", () => {
       isAddTopic = false;
     if (isUpdate) {
       loadingText.innerText = "Updating Topic. Please Wait";
-      updateTopic(saveTopicName, saveContent, date, topicCode);
+      updateTopic(saveTopicName, saveContent, date, globalTopicCode);
       isUpdate = false;
-      topicCode = null;
+      globalTopicCode = null;
     }
     else {
       loadingText.innerText = "Adding Topic. Please Wait";
@@ -359,7 +381,7 @@ function showTopics() {
       for (topicCode in topics) {
         //let filterDesc = topics[topicCode].content.replaceAll("\n", "<br/>");
         //let filterContent = escapeHtml(topics[topicCode].content);
-        let topicContent = topics[topicCode].content;
+        // let topicContent = topics[topicCode].content;
         let liTag = `<li class="note"  >
                         <div class="details" onclick="viewTopic('${topicCode}','${topics[topicCode].title}')">
                             <p id="topic-text">${topics[topicCode].title}</p>
@@ -367,7 +389,13 @@ function showTopics() {
                         </div>
                         <div class="bottom-content">
                             <span>${topics[topicCode].date}</span>
-                            
+                            <div class="settings">
+                                <i onclick="showMenu(this)" class="uil uil-ellipsis-h"></i>
+                                <ul class="menu">
+                                    <li onclick="editTopic('${topicCode}')"><i class="uil uil-pen"></i>Edit</li>
+                                    <li onclick="deleteTopic('${topicCode}')"><i class="uil uil-trash"></i>Delete</li>
+                                </ul>
+
                         </div>
                     </li>`;
         addTopic.insertAdjacentHTML("afterend", liTag);
@@ -377,9 +405,15 @@ function showTopics() {
 }
 
 showTopics();
+/*
+<div class="settings">
+                                <i onclick="showMenu(this)" class="uil uil-ellipsis-h"></i>
+                                <ul class="menu">
+                                    <li onclick="updateNote(${id}, '${note.title}', '${filterDesc}')"><i class="uil uil-pen"></i>Edit</li>
+                                    <li onclick="deleteNote(${id})"><i class="uil uil-trash"></i>Delete</li>
+                                </ul>
 
-
-
+*/
 
 
 function formatDoc(cmd, value = null) {
