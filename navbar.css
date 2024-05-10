@@ -6,7 +6,7 @@
 
   nav {
     /* background: linear-gradient(rgb(0, 126, 61), rgb(0, 128, 75)); */
-    background: linear-gradient(to bottom, #075c57, #07494b);
+    background: linear-gradient(to bottom, #043c38, #035052);
     padding: 5px 20px;
     position: fixed;
     top: 0;
@@ -128,8 +128,8 @@
         color: white;
         cursor: pointer;
         padding: 7.5px 15px;
-        background: teal;
-        border: 1px #006d6d solid;
+        background: #042f2e;
+        border: 1px #18d1d1 solid;
         border-radius:50em;
     }
     
