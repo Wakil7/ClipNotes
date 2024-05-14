@@ -14,7 +14,6 @@ let remember = document.getElementById("remember");
 let loadingText = document.getElementById("loading-text")
 
 function setSubject(subName) {
-  //let newSubRef = notesDB.child(userName).child(subName);
   let currentUserName = localStorage.getItem("currentUserName");
   let subjectCode = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects").push().key;
   let newSubRef = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + subjectCode);
@@ -37,9 +36,7 @@ function updateSubject(subName, subCode)
       errorNotification("Error creating . Try again");
     });
 }
-//updateSubject("Computer", "-NtqYVvxB_PhQA3hmPdR")
 
-//setSubject("Maths2");
 
 function setTopic(topicName, content, date) {
   let currentUserName = localStorage.getItem("currentUserName");
@@ -59,7 +56,7 @@ function setTopic(topicName, content, date) {
     });
 }
 
-//setTopic("T2", "D1", "Any");
+
 function updateTopic(topicName, content, date, topicCode)
 {
   let currentUserName = localStorage.getItem("currentUserName");
@@ -78,7 +75,7 @@ function updateTopic(topicName, content, date, topicCode)
     });
 }
 
-//updateTopic("T4", "D5", "Today", "-Ntq_n01_hA3XmdQ-Tm6")
+
 
 function userSignUp(username, email, password) {
   getUserData(function (data) {
@@ -120,10 +117,6 @@ function userSignIn(username, password) {
         if (passwordFromUser == passwordFromDb) {
           localStorage.setItem("currentUserName", username);
           history.replaceState(null, null, "subjects.html");
-          if (remember.checked)
-          {
-              localStorage.setItem("ClipNotesUserName", username);
-          }
           window.location.href = "subjects.html"
           return;
         }
@@ -134,12 +127,12 @@ function userSignIn(username, password) {
       }
     }
     errorNotification("This username does not exist");
-    //console.log(userFound);
+
   })
 }
 
 
-// Function to encrypt the password
+
 function encryptPassword(password) {
   let encryptedPassword = "";
   for (let i = 0; i < password.length; i++) {
@@ -255,7 +248,7 @@ function removeTopic(topicCode, callback)
 {
   let currentUserName = localStorage.getItem("currentUserName");
   let currentSubject = localStorage.getItem("currentSubject");
-  // console.log(currentSubject);
+
   let topicToRemove = notesDB.ref("ClipNotes/" + currentUserName + "/Subjects/" + currentSubject + "/Topics/" + topicCode);
   topicToRemove.push()
   topicToRemove.remove().then(function() {
