@@ -148,23 +148,6 @@ function encryptPassword(password) {
   return encryptedPassword;
 }
 
-//Function to decrypt the password
-/*
-function decryptPassword(password) {
-  let decryptedPassword = "";
-  for (let i = 0; i < password.length; i++) {
-    let ascii = password.charCodeAt(i);
-    if (i % 2 == 0) {
-      ascii--;
-    }
-    else {
-      ascii++;
-    }
-    decryptedPassword += String.fromCharCode(ascii);
-  }
-  return decryptedPassword;
-}
-*/
 
 function getUserData(callback) {
   let dataFetched = false;

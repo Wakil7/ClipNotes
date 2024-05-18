@@ -1,4 +1,4 @@
-/* Import Google Font - Poppins */
+
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 * {
@@ -19,11 +19,11 @@ body {
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    margin: 0 auto; /* Center the buttons horizontally */
+    margin: 0 auto; 
 }
 .button-container {
   display: flex;
-  justify-content: center; /* Horizontally center the buttons */
+  justify-content: center; 
     align-items: center;;
 }
 ::selection {
@@ -50,85 +50,50 @@ body {
 
 .bt {
   background-color: #008cba;
-  /* Blue background */
   border: none;
-  /* No borders */
   color: white;
-  /* White text */
   padding: 10px 20px;
-  /* Padding */
   text-align: center;
-  /* Center text */
   text-decoration: none;
-  /* No underline */
   display: inline-block;
-  /* Use inline-block */
   font-size: 16px;
-  /* Font size */
   margin: 4px 2px;
-  /* Margin */
   cursor: pointer;
-  /* Pointer cursor on hover */
   border-radius: 5px;
-  /* Rounded corners */
   transition: background-color 0.3s ease;
-  /* Smooth transition for hover effect */
 }
 
 .btpop {
   background-color: #008cba;
-  /* Blue background */
   border: none;
-  /* No borders */
   color: white;
-  /* White text */
   padding: 9px 9px;
-  /* Padding */
   text-align: center;
-  /* Center text */
   text-decoration: none;
-  /* No underline */
   display: inline-block;
-  /* Use inline-block */
   font-size: 16px;
-  /* Font size */
   margin: 4px 4px;
-  /* Margin */
   cursor: pointer;
-  /* Pointer cursor on hover */
   border-radius: 5px;
-  /* Rounded corners */
   transition: background-color 0.3s ease;
-  /* Smooth transition for hover effect */
 }
 
 .bt:hover {
   background-color: #005f73;
-  /* Darker shade of blue on hover */
 }
 
 .display-note {
   font-family: "Arial", sans-serif;
-  /* Use a web-safe font */
   font-size: 18px;
-  /* Set a base font size */
   line-height: 1.6;
-  /* Set line height for readability */
   color: #333;
-  /* Set a comfortable color for reading */
   margin: 0 0 20px 0;
-  /* Add some margin to the bottom of paragraphs */
   padding: 0;
-  /* Reset padding */
   max-width: 800px;
-  /* Max width to prevent lines from being too long */
   margin-left: auto;
-  /* Center the paragraph */
   margin-right: auto;
-  /* Center the paragraph */
 }
 
-/* Popup Design Start */
 .popup-box {
   position: fixed;
   top: 0;
@@ -150,7 +115,7 @@ body {
   transform: translate(-50%, -50%) scale(0.95);
   background: linear-gradient(135deg, #ffffff, #f0f0f0);
   border-radius: 10px;
-  border: 5px solid #075c57; /* Added border */
+  border: 5px solid #075c57; 
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
 }
 
@@ -250,7 +215,6 @@ form button:hover {
 }
 
 
-/* Popup Design End */
 
 .add-box,
 .icon,
@@ -449,120 +413,12 @@ header,
   margin-bottom: 0;
 }
 
-/* .menu li:hover {
-  background: #f5f5f5;
-} */
 
 .menu li i {
   padding-right: 8px;
 }
 
-/* .popup-box {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.4);
 
-
- .popup-box .popup {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 3;
-  width: 100%;
-  max-width: 400px;
-  justify-content: center;
-  transform: translate(-50%, -50%) scale(0.95);
-}
-
-.popup-box,
-.popup {
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.25s ease;
-}
-
-.popup-box.show,
-.popup-box.show .popup {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.popup-box.show .popup {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.popup .content {
-  border-radius: 5px;
-  background: #fff;
-  width: calc(200% - 150px);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-} 
-
-.content header {
-  padding: 15px 25px;
-  border-bottom: 1px solid #ccc;
-}
-
-.content header p {
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.content header i {
-  color: #8b8989;
-  cursor: pointer;
-  font-size: 23px;
-}
-
-.content form {
-  margin: 10px 25px 35px;
-}
-
-.content form .row {
-  margin-bottom: 20px;
-}
-
-form .row label {
-  font-size: 18px;
-  display: block;
-  margin-bottom: 10px;
-}
-
-form :where(input, textarea) {
-  height: 100px;
-  width: 100%;
-  outline: none;
-  font-size: 17px;
-  padding: 0 20px;
-  border-radius: 4px;
-  border: 1px solid #999;
-}
-
-form :where(input, textarea):focus {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.11);
-}
-
-form .row textarea {
-  height: 200px;
-  resize: none;
-  padding: 20px 15px;
-}
-
-form button {
-  width: 100%;
-  height: 50px;
-  color: #fff;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  font-size: 17px;
-  border-radius: 4px;
-  background: #6a93f8;
-} */
 
 @media (max-width: 660px) {
   .wrapper {
@@ -570,17 +426,8 @@ form button {
     gap: 15px;
     grid-template-columns: repeat(auto-fill, 100%);
   }
-  /* .popup-box .popup {
-    max-width: calc(100% - 15px);
-  }
-  .bottom-content .settings i {
-    font-size: 17px;
-  } */
+
 }
 
-@media only screen and (max-width: 600px) {
-  .note {
-    /* Adjust styles for smaller screens */
-  }
-}
+
 

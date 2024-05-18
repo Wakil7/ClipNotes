@@ -1,10 +1,3 @@
-// document
-//   .querySelector("#success")
-//   .addEventListener("click", handleSuccesBtnClick);
-// document.querySelector("#error").addEventListener("click", handleErrorBtnClick);
-// document
-//   .querySelector("#invalid")
-//   .addEventListener("click", handleInvalidBtnClick);
 const toastContainerElm = document.querySelector(".toast-container");
 
 function successNotification(message) {
@@ -46,28 +39,3 @@ function errorNotification(message) {
     toastContainerElm.removeChild(toastElm);
   }, 3500);
 }
-/*
-function handleInvalidBtnClick() {
-  const toastElm = document.createElement("div");
-  toastElm.classList.add("toast", "invalid-toast");
-  toastElm.innerHTML = `
-    <div class="wrapper">
-        <div class="tile">
-            <div class="icon">
-                <span class="material-icons">
-                    priority_high
-                </span>
-            </div>
-            <p>Invalid input, check again</p>
-        </div>
-        <div class="progress-bar"></div>
-    </div>`;
-  toastContainerElm.append(toastElm);
-  setInterval(() => {
-    toastContainerElm.removeChild(toastElm);
-  }, 3500);
-}
-*/
-// successNotification("Success")
-// errorNotification("Error")
-// handleErrorBtnClick()

@@ -21,8 +21,6 @@ let subjectCode = null;
 let confirmId = null;
 overlay.style.display = "none";
 confirmPopup.style.display = "none";
-//let subjectArr = JSON.parse(localStorage.getItem("subjects") || "[]");
-//let subjectArr = 
 
 addSubject.addEventListener("click", () => {
   popupTitle.innerText = "Add a New Subject";
@@ -39,28 +37,6 @@ closeIcon.addEventListener("click", () => {
   popupBox.classList.remove("show");
   document.querySelector("body").style.overflow = "auto";
 });
-
-/*
-function showSubjects() {
-  if (!subjectArr) return;
-  document.querySelectorAll(".note").forEach((li) => li.remove());
-  subjectsForShow = subjectArr;
-  subjectsForShow.reverse();
-  subjectsForShow.forEach((sub) => {
-    let liTag = `<li class="note">
-                        <div class="details">
-                            <p>${sub}</p>
-                            <span  onclick="viewSubject('${sub}')">[Subject Image]</span>
-                        </div>
-                        <button class="" onclick="editSubject('${sub}')"><i class="uil uil-pen"></i>Edit</button>
-                         <button class="" onclick="deleteSubject('${sub}')"><i class="uil uil-trash"></i>Delete</button>
-
-                    </li > `;
-    addSubject.insertAdjacentHTML("afterend", liTag);
-  });
-}
-*/
-//showSubjects();
 
 
 yesBtn.addEventListener("click", () => {
@@ -108,7 +84,6 @@ function editSubject(subCode, subName) {
 }
 
 function deleteSubject(subCode) {
-  //let confirmDel = confirm("Are you sure you want to delete this note?");
   overlay.style.display = "block";
   confirmPopup.style.display = "block";
   document.body.style.overflow = "hidden";
@@ -144,10 +119,8 @@ function showSubjects() {
   loadingPopup.style.display = "block";
   fetchSubjects(function (sub) {
     loadingPopup.style.display = "none";
-    // subjects.style.display = "block";
     document.querySelectorAll(".note").forEach((li) => li.remove());
     if (sub == null) {
-      // successNotification("No Subjects Added. Create a new Subject Folder");
     }
     else {
       for (subCode in sub) {

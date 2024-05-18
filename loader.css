@@ -1,9 +1,4 @@
-/* body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(120deg, #3498db, #8e44ad);
-} */
+
 #loading-popup {
   display: none;
   position: fixed;
@@ -16,14 +11,7 @@
   background-color: rgba(0, 0, 0, 0.795);
 }
 
-/* .loading-popup-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 400px;
-} */
+
 
 .loader-container {
   display: flex;
